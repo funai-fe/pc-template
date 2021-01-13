@@ -88,6 +88,24 @@ export const constantRoutes = [
         meta: { title: 'Form', icon: 'form' }
       }
     ]
+  },
+  {
+    path: '/upload',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'Upload',
+        component: () => import('@/views/upload/index'),
+        meta: { title: 'upload', icon: 'form' }
+      },
+      {
+        path: 'indexold',
+        name: 'Uploadold',
+        component: () => import('@/components/upLoad/index-old.vue'),
+        meta: { title: 'uploadold', icon: 'form' }
+      }
+    ]
   }
 ]
 
