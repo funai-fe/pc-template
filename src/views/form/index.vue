@@ -23,7 +23,7 @@
         <el-switch v-model="form.delivery" />
       </el-form-item>
       <el-form-item label="Activity type">
-        <el-checkbox-group v-model="form.type">
+        <el-checkbox-group v-model="form.type" @change="change">
           <el-checkbox label="Online activities" name="type" />
           <el-checkbox label="Promotion activities" name="type" />
           <el-checkbox label="Offline activities" name="type" />
@@ -72,6 +72,9 @@ export default {
         message: 'cancel!',
         type: 'warning'
       })
+    },
+    change(a) {
+      console.log(a)
     }
   }
 }
