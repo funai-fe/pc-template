@@ -92,18 +92,26 @@ export const constantRoutes = [
   {
     path: '/upload',
     component: Layout,
+    meta: { title: 'Upload', icon: 'example' },
     children: [
       {
         path: 'index',
         name: 'Upload',
         component: () => import('@/views/upload/index'),
         meta: { title: 'upload', icon: 'form' }
-      },
+      }
+    ]
+  },
+  {
+    path: '/divdrag',
+    component: Layout,
+    meta: { title: 'Divdrag', icon: 'example' },
+    children: [
       {
-        path: 'indexold',
-        name: 'Uploadold',
-        component: () => import('@/components/upLoad/index-old.vue'),
-        meta: { title: 'uploadold', icon: 'form' }
+        path: 'index',
+        name: 'Divdrag',
+        component: () => import('@/views/divdrag/index'),
+        meta: { title: 'divdrag', icon: 'form' }
       }
     ]
   }
