@@ -7,34 +7,33 @@
     :on-success="bannerPicSuccess"
     :before-upload="beforeAvatarUpload"
     @update="updateFile"
-  ></image-drag>
+  />
 </template>
 <script>
-import ImageDrag from "@/components/upLoad/index.vue";
-import { Loading } from "element-ui";
+import ImageDrag from '@/components/upLoad/index.vue'
+// import { Loading } from 'element-ui'
 export default {
   components: {
-    ImageDrag,
+    ImageDrag
   },
   data() {
     return {
-      banner_list: [], //ele用的
-      file_list: [], //自己用的
-    };
+      banner_list: [], // ele用的
+      file_list: [] // 自己用的
+    }
   },
   methods: {
     // 上传图片路径
     uploadUrl() {
-        return 'https://kyy-business-test1.yaochufa.com/upload/uploadImage'
+      return 'https://kyy-business-test1.yaochufa.com/upload/uploadImage'
     },
     // 图片长传-之前
     beforeAvatarUpload(file) {
-      let self = this;
-      let type_arr = ["image/jpeg", "image/png"];
-      let type = file.type;
+      const type_arr = ['image/jpeg', 'image/png']
+      const type = file.type
       if (!type_arr.includes(type)) {
-        this.$message.error("图片格式不正确,只支持jpg和png类型图片");
-        return false;
+        this.$message.error('图片格式不正确,只支持jpg和png类型图片')
+        return false
       }
       return true
     //   const is_size = new Promise((resolve, reject) => {
@@ -57,17 +56,16 @@ export default {
     },
     // Banner图-成功
     bannerPicSuccess(res) {
-      this.file_list.push(res.content);
-      
+      this.file_list.push(res.content)
     },
     // Banner图片上传报错
     uploadError() {
-      this.$message.error("上传失败，请重新上传");
+      this.$message.error('上传失败，请重新上传')
     },
     updateFile(val) {
-      this.file_list = val;
-      console.log(this.file_list);
-    },
-  },
-};
+      this.file_list = val
+      console.log(this.file_list)
+    }
+  }
+}
 </script>
