@@ -1,7 +1,7 @@
 <template>
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
-    <el-scrollbar wrap-class="scrollbar-wrapper">
+    <!-- <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -14,18 +14,20 @@
       >
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
-    </el-scrollbar>
+    </el-scrollbar> -->
+    <Navigation :collapse="isCollapse"/>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import Logo from './Logo'
+import Navigation from './Navigation'
 import SidebarItem from './SidebarItem'
 import variables from '@/styles/variables.scss'
 
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem, Logo, Navigation },
   computed: {
     ...mapGetters([
       'permission_routes',
