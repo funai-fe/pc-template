@@ -1,8 +1,8 @@
 {
-  "name": "vue-admin-template",
+  "name": "funai",
   "version": "4.2.1",
-  "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
-  "author": "Pan <panfree23@gmail.com>",
+  "description": "funai",
+  "author": "wenchongxie <hnnydxxwc@163.com>",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
@@ -15,12 +15,15 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
+    "@glidejs/glide": "^3.6.0",
+    "animejs": "^3.2.1",
     "axios": "0.18.1",
     "element-ui": "2.13.0",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
+    "scrollreveal": "^4.0.9",
     "vue": "2.6.10",
     "vue-router": "3.0.6",
     "vuedraggable": "^2.24.3",

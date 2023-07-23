@@ -1,8 +1,8 @@
 <template>
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" />
-    <!-- <el-scrollbar wrap-class="scrollbar-wrapper">
-      <el-menu
+    <el-scrollbar wrap-class="scrollbar-wrapper">
+      <!-- <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
@@ -13,8 +13,8 @@
         mode="vertical"
       >
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
-      </el-menu>
-    </el-scrollbar> -->
+      </el-menu> -->
+    </el-scrollbar>
     <Navigation :collapse="isCollapse"/>
   </div>
 </template>

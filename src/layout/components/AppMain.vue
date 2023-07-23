@@ -1,6 +1,6 @@
 <template>
   <section class="app-main">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <!-- <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
@@ -9,11 +9,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Hamburger from '@/components/Hamburger'
+// import Hamburger from '@/components/Hamburger'
 export default {
   name: 'AppMain',
   components: {
-    Hamburger
+    // Hamburger
   },
   computed: {
     ...mapGetters([
@@ -24,9 +24,9 @@ export default {
     }
   },
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    }
+    // toggleSideBar() {
+    //   this.$store.dispatch('app/toggleSideBar')
+    // }
   }
 }
 </script>
@@ -39,18 +39,18 @@ export default {
   position: relative;
   overflow: hidden;
 
-  .hamburger-container {
-    line-height: 46px;
-    height: 100%;
-    float: left;
-    cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+  // .hamburger-container {
+  //   line-height: 46px;
+  //   height: 100%;
+  //   float: left;
+  //   cursor: pointer;
+  //   transition: background .3s;
+  //   -webkit-tap-highlight-color:transparent;
 
-    &:hover {
-      background: rgba(0, 0, 0, .025)
-    }
-  }
+  //   &:hover {
+  //     background: rgba(0, 0, 0, .025)
+  //   }
+  // }
 }
 
 .fixed-header+.app-main {

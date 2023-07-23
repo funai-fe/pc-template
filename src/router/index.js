@@ -17,7 +17,7 @@ import Layout from '@/layout'
  * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
  * name:'router-name'             the name is used by <keep-alive> (must set!!!)
  * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
+    roles: ['admin','tourist']    control the page roles (you can set multiple roles)
     title: 'title'               the name show in sidebar and breadcrumb (recommend set)
     icon: 'svg-name'             the icon show in the sidebar
     breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
@@ -36,6 +36,11 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
+  {
+    path: '/home', // 首页官网
+    component: () => import('@/views/home/index'),
+    hidden: true
+  },
 
   {
     path: '/404',
@@ -46,27 +51,28 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/home',
+    redirect: '/index',
     children: [{
-      path: 'home',
-      name: 'Home',
-      component: () => import('@/views/home/index'),
-      meta: { title: 'Home', icon: 'home' }
+      path: 'index',
+      name: 'Index',
+      component: () => import('@/views/index/index'),
+      hidden: true,
+      meta: { title: 'Index', icon: 'index' }
     }]
   },
-  {
-    path: '/upload',
-    component: Layout,
-    meta: { title: 'Upload', icon: 'example' },
-    children: [
-      {
-        path: 'index',
-        name: 'Upload',
-        component: () => import('@/views/upload/index'),
-        meta: { title: 'upload', icon: 'form' }
-      }
-    ]
-  }
+  // {
+  //   path: '/upload',
+  //   component: Layout,
+  //   meta: { title: 'Upload', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Upload',
+  //       component: () => import('@/views/upload/index'),
+  //       meta: { title: 'upload', icon: 'form' }
+  //     }
+  //   ]
+  // }
 ]
 
 /**
@@ -74,16 +80,16 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
-      }
-    ]
-  },
+  // {
+  //   path: 'external-link',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
+  //       meta: { title: 'External Link', icon: 'link' }
+  //     }
+  //   ]
+  // },
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
