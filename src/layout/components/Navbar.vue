@@ -1,6 +1,6 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapGetters([
       'sidebar',
-      'avatar'
+      // 'avatar'
     ])
   },
   methods: {
@@ -68,7 +68,7 @@ export default {
   box-shadow: 0 1px 4px rgba(0,21,41,.08);
 
   .hamburger-container {
-    line-height: 46px;
+    line-height: 68px;
     height: 100%;
     float: left;
     cursor: pointer;

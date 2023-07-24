@@ -1,7 +1,8 @@
 <template>
-  <div :class="{'has-logo':showLogo}">
+  <div :class="{ 'has-logo': showLogo }">
     <logo v-if="showLogo" :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
+      <Menu :collapse="isCollapse" />
       <!-- <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
@@ -15,42 +16,42 @@
         <sidebar-item v-for="route in permission_routes" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu> -->
     </el-scrollbar>
-    <Navigation :collapse="isCollapse"/>
+    <Navigation :collapse="isCollapse" />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Logo from './Logo'
-import Navigation from './Navigation'
-import SidebarItem from './SidebarItem'
-import variables from '@/styles/variables.scss'
+import { mapGetters } from "vuex";
+import Logo from "./Logo";
+import Navigation from "./Navigation";
+import Menu from "./Menu";
+import SidebarItem from "./SidebarItem";
+import variables from "@/styles/variables.scss";
 
 export default {
-  components: { SidebarItem, Logo, Navigation },
+  components: { SidebarItem, Logo, Navigation, Menu },
   computed: {
     ...mapGetters([
-      'permission_routes',
-      'sidebar'
+      // 'permission_routes',
+      "sidebar",
     ]),
-    activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
-      // if set path, the sidebar will highlight the path you set
-      if (meta.activeMenu) {
-        return meta.activeMenu
-      }
-      return path
-    },
+    // activeMenu() {
+    //   const route = this.$route
+    //   const { meta, path } = route
+    //   if (meta.activeMenu) {
+    //     return meta.activeMenu
+    //   }
+    //   return path
+    // },
     showLogo() {
-      return this.$store.state.settings.sidebarLogo
+      return this.$store.state.settings.sidebarLogo;
     },
     variables() {
-      return variables
+      return variables;
     },
     isCollapse() {
-      return !this.sidebar.opened
-    }
-  }
-}
+      return !this.sidebar.opened;
+    },
+  },
+};
 </script>

@@ -1,53 +1,69 @@
 <template>
-  <div class="sidebar-nav-container" :class="{'collapse':collapse}">
-    <transition name="sidebarLogoFade" v-for="item in navs">
-      <!-- <div v-if="collapse" class="sidebar-logo-link">
-        <img v-if="logo" :src="logo" class="sidebar-logo">
-        <h1 class="sidebar-title">{{ item.name }} </h1>
-      </div> -->
+  <div class="sidebar-nav-container" :class="{ collapse: collapse }">
+    <transition
+      name="sidebarLogoFade"
+      v-for="(item, index) in navs"
+      :key="index"
+    >
       <div v-if="!collapse" class="sidebar-logo-link">
-        <!-- <img v-if="logo" :src="logo" class="sidebar-logo"> -->
-        <h1 class="sidebar-title">{{ item.name }} </h1>
+        <h1 class="sidebar-title">{{ item.name }}</h1>
       </div>
     </transition>
     <transition name="sidebarLogoFade">
-      <div v-if="!collapse" class="sidebar-logo-link">
-        <!-- <img v-if="logo" :src="logo" class="sidebar-logo"> -->
-        <h1 class="sidebar-title">FUNAI {{ title }} </h1>
+      <div v-if="!collapse" class="sidebar-logo-link user-dropdown">
+        <el-dropdown placement="right-start">
+          <span class="el-dropdown-link">
+            FUNAI {{ name }}
+            <i class="el-icon-arrow-right"></i>
+            <!-- <img
+              class="icon_right_nor"
+              src="@/assets/common/icon_right_nor.png"
+              alt=""
+            /> -->
+          </span>
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>其他账号</el-dropdown-item>
+            <el-dropdown-item>退出账号</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+
+        <!-- <h1 class="sidebar-title"></h1>
+        <img
+          class="icon_right_nor"
+          src="@/assets/common/icon_right_nor.png"
+          alt=""
+        /> -->
       </div>
     </transition>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  name: 'SidebarNavigation',
+  name: "SidebarNavigation",
   props: {
     collapse: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png',
-      navs: [{
-        name: '切换主题'
-      }, {
-        name: '联系我们'
-      }]
-    }
+      navs: [
+        {
+          name: "AI客服",
+        },
+        {
+          name: "联系我们",
+        },
+      ],
+    };
   },
   computed: {
-    ...mapGetters([
-      'name'
-    ]),
-    title() {
-      return this.$store.state.settings.title
-    }
-  }
-}
+    ...mapGetters(["name"]),
+  },
+};
 </script>
 <style lang="scss" scoped>
 .sidebarLogoFade-enter-active {
@@ -60,42 +76,71 @@ export default {
 }
 
 .sidebar-nav-container {
+  height: 142px;
+  display: flex;
+  flex-direction: column;
   position: absolute;
   bottom: 0;
   width: 100%;
-  // height: 50px;
-  // line-height: 50px;
-  background: #2b2f3a;
-  text-align: center;
+  background: #f9fafb;
+  padding: 16px 30px;
   overflow: hidden;
+  border-top: 1px solid #e5e7eb;
 
   & .sidebar-logo-link {
+    display: flex;
+    align-items: center;
     height: 100%;
     width: 100%;
 
-    & .sidebar-logo {
-      width: 32px;
-      height: 32px;
-      vertical-align: middle;
-      margin-right: 12px;
+    &.user-dropdown {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
+
+    // & .sidebar-logo {
+    //   width: 32px;
+    //   height: 32px;
+    //   vertical-align: middle;
+    //   margin-right: 12px;
+    // }
 
     & .sidebar-title {
+      font-size: 14px;
+      font-family: PingFangSC-Medium, PingFang SC;
       display: inline-block;
       margin: 0;
-      color: #fff;
-      font-weight: 600;
-      line-height: 33px;
-      font-size: 14px;
-      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      color: #6c727f;
+      // line-height: 30px;
       vertical-align: middle;
+    }
+    // & .el-icon-arrow-right {
+    //   cursor: pointer;
+    // }
+
+    .el-dropdown {
+      width: 100%;
+      cursor: pointer;
+
+
+      .el-dropdown-link {
+        align-items: center;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        // line-height: 30px;
+        font-size: 14px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        color: #6c727f;
+      }
     }
   }
 
-  &.collapse {
-    .sidebar-logo {
-      margin-right: 0px;
-    }
-  }
+  // &.collapse {
+  //   .sidebar-logo {
+  //     margin-right: 0px;
+  //   }
+  // }
 }
 </style>
