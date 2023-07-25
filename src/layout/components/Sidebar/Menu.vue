@@ -7,90 +7,134 @@
         class="sidebar-logo-link"
         to="/"
       >
-        <!-- <img
-          v-if="logo"
-          :src="logo"
-          class="sidebar-logo scale"
-        /> -->
         <el-collapse accordion>
           <el-collapse-item>
             <template slot="title">
               <img
                 class="menu-icon"
-                src="@/assets/common/icon_ai_duihua_sel@2x.png"
+                :src="icons.duihua"
                 alt=""
               />
               AI对话
             </template>
-            <div>
-              与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
-            </div>
-            <div>
-              与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
-            </div>
+            <div>默认对话名称为第一个问题</div>
           </el-collapse-item>
-          <el-collapse-item title="反馈 Feedback">
-            <div>
-              控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；
-            </div>
-            <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
+
+          <el-collapse-item>
+            <template slot="title">
+              <img
+                class="menu-icon"
+                :src="icons.danwenjian"
+                alt=""
+              />
+              单文件阅读
+            </template>
+          </el-collapse-item>
+
+          <el-collapse-item>
+            <template slot="title">
+              <img
+                class="menu-icon"
+                :src="icons.duowenjian"
+                alt=""
+              />
+              多文件阅读
+            </template>
+          </el-collapse-item>
+
+          <el-collapse-item>
+            <template slot="title">
+              <img
+                class="menu-icon"
+                :src="icons.huatu"
+                alt=""
+              />
+              AI画图
+            </template>
+          </el-collapse-item>
+
+          <el-collapse-item>
+            <template slot="title">
+              <img
+                class="menu-icon"
+                :src="icons.game"
+                alt=""
+              />
+              冒险游戏
+            </template>
+          </el-collapse-item>
+
+          <el-collapse-item>
+            <template slot="title">
+              <img
+                class="menu-icon"
+                :src="icons.yuyan"
+                alt=""
+              />
+              语言专家
+            </template>
           </el-collapse-item>
         </el-collapse>
       </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" to="/">
-        <img
-          v-if="logo"
-          :src="logo"
-          class="menu-icon"
-        />
+
+      <!-- <template v-else>
+        <el-tooltip v-if="icons.duihua" class="tooltip-item" effect="dark" content="AI对话" placement="right">
+          <router-link
+            key="expand"
+            class="sidebar-logo-link collapse"
+            to="/"
+          >
+            <img :src="icons.duihua" class="menu-icon" />
+          </router-link>
+        </el-tooltip>
+        <el-tooltip v-if="icons.duowenjian" class="tooltip-item" effect="dark" content="AI对话" placement="right">
+          <router-link
+            key="expand"
+            class="sidebar-logo-link collapse"
+            to="/"
+          >
+            <img :src="icons.duowenjian" class="menu-icon" />
+          </router-link>
+        </el-tooltip>
+      </template> -->
+
+      <router-link
+        v-else
+        key="expand"
+        class="sidebar-logo-link collapse"
+        to="/"
+      >
+        <el-tooltip v-if="icons.duihua" class="tooltip-item" effect="dark" content="AI对话" placement="right">
+          <img :src="icons.duihua" class="menu-icon" />
+        </el-tooltip>
+        <el-tooltip v-if="icons.danwenjian" class="tooltip-item" effect="dark" content="单文件阅读" placement="right">
+          <img :src="icons.danwenjian" class="menu-icon" />
+        </el-tooltip>
+        <el-tooltip v-if="icons.duowenjian" class="tooltip-item" effect="dark" content="多文件阅读" placement="right">
+          <img :src="icons.duowenjian" class="menu-icon" />
+        </el-tooltip>
+        <el-tooltip v-if="icons.huatu" class="tooltip-item" effect="dark" content="AI画图" placement="right">
+          <img :src="icons.huatu" class="menu-icon" />
+        </el-tooltip>
+        <el-tooltip v-if="icons.game" class="tooltip-item" effect="dark" content="冒险游戏" placement="right">
+          <img :src="icons.game" class="menu-icon" />
+        </el-tooltip>
+        <el-tooltip v-if="icons.yuyan" class="tooltip-item" effect="dark" content="语言专家" placement="right">
+          <img :src="icons.yuyan" class="menu-icon" />
+        </el-tooltip>
       </router-link>
     </transition>
   </div>
 </template>
 
-<!-- <template>
-  <div class="sidebar-nav-container" :class="{ collapse: collapse }">
-    <transition name="sidebarLogoFade">
-      <div v-if="!collapse" class="sidebar-logo-link">
-        <el-collapse accordion>
-          <el-collapse-item>
-            <template slot="title">
-              <img
-                class="menu-icon"
-                src="@/assets/common/icon_ai_duihua_sel@2x.png"
-                alt=""
-              />
-              AI对话
-            </template>
-            <div>
-              与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
-            </div>
-            <div>
-              与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；
-            </div>
-          </el-collapse-item>
-          <el-collapse-item title="反馈 Feedback">
-            <div>
-              控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；
-            </div>
-            <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-      <div v-else class="sidebar-logo-link">
-        <img
-          class="menu-icon collapse"
-          src="@/assets/common/icon_ai_duihua_sel@2x.png"
-          alt=""
-        />
-      </div>
-    </transition>
-  </div>
-</template> -->
-
 <script>
 import { mapGetters } from "vuex";
-import logo from '@/assets/common/icon_ai_duihua_sel@2x.png'
+import duihua from "@/assets/common/icon_ai_duihua_sel@2x.png";
+import danwenjian from "@/assets/common/icon_danwenjian_nor@2x.png";
+import duowenjian from "@/assets/common/icon_duowenjian_nor@2x.png";
+import huatu from "@/assets/common/icon_ai_huatu_nor@2x.png";
+import game from "@/assets/common/icon_maoxianyouxi_nor@2x.png";
+import yuyan from "@/assets/common/icon_yuyanzhuanjia_nor@2x.png";
 
 export default {
   name: "SidebarNavigation",
@@ -102,7 +146,14 @@ export default {
   },
   data() {
     return {
-      logo: logo,
+      icons: {
+        duihua: duihua,
+        danwenjian: danwenjian,
+        duowenjian: duowenjian,
+        huatu: huatu,
+        game: game,
+        yuyan: yuyan
+      },
       navs: [
         {
           name: "AI客服",
@@ -132,10 +183,34 @@ export default {
   width: 100%;
   background: #f9fafb;
   padding: 10px 30px;
-  // overflow: hidden;
+  &.collapse {
+    padding: 10px 0;
+    &:hover {
+      cursor: pointer;
+      background-color: #F3F4F6;
+    }
+  }
 
   & .sidebar-logo-link {
     overflow: inherit !important;
+    position: relative;
+    left: -14px;
+
+    &.collapse {
+      display: flex !important;
+      align-items: center !important;
+      flex-direction: column;
+      height: 42px!important;
+      position: relative;
+      left: 2px;
+      // &:hover {
+      //   cursor: pointer;
+      //   background-color: red;
+      // }
+      & .menu-icon {
+        margin: 9px 0;
+      }
+    }
   }
   .menu-icon {
     width: 24px;

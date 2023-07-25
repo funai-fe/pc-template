@@ -1,6 +1,14 @@
 <template>
   <div class="navbar">
-    <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <div class="page-main-title">
+      <span>欢迎使用</span>
+      
+      <!-- <img
+          src="@/assets/common/image_logo@2x.png"
+          class="sidebar-logo"
+        /> -->
+        <span> ，你可以尝试这样问我</span></div>
+    <!-- <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
 
@@ -32,25 +40,25 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 // import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+// import Hamburger from '@/components/Hamburger'
 
 export default {
   components: {
     // Breadcrumb,
-    Hamburger
+    // Hamburger
   },
   computed: {
-    ...mapGetters([
-      'sidebar',
-      // 'avatar'
-    ])
+    // ...mapGetters([
+    //   'sidebar',
+    //   // 'avatar'
+    // ])
   },
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
+    // toggleSideBar() {
+    //   this.$store.dispatch('app/toggleSideBar')
+    // },
     async logout() {
       await this.$store.dispatch('user/logout')
       this.$router.push(`/login?redirect=${this.$route.fullPath}`)
@@ -61,79 +69,91 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  padding-top: 65px;
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
-
-  .hamburger-container {
-    line-height: 68px;
-    height: 100%;
-    float: left;
-    cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
-
-    &:hover {
-      background: rgba(0, 0, 0, .025)
-    }
+  // box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  & .page-main-title span{
+    font-size: 36px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    color: #333333;
+  }
+  .sidebar-logo {
+    position:absolute;
   }
 
-  .breadcrumb-container {
-    float: left;
-  }
+  // .hamburger-container {
+  //   line-height: 68px;
+  //   height: 100%;
+  //   float: left;
+  //   cursor: pointer;
+  //   transition: background .3s;
+  //   -webkit-tap-highlight-color:transparent;
 
-  .right-menu {
-    float: right;
-    height: 100%;
-    line-height: 50px;
+  //   &:hover {
+  //     background: rgba(0, 0, 0, .025)
+  //   }
+  // }
 
-    &:focus {
-      outline: none;
-    }
+  // .breadcrumb-container {
+  //   float: left;
+  // }
 
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
-      vertical-align: text-bottom;
+  // .right-menu {
+  //   float: right;
+  //   height: 100%;
+  //   line-height: 50px;
 
-      &.hover-effect {
-        cursor: pointer;
-        transition: background .3s;
+  //   &:focus {
+  //     outline: none;
+  //   }
 
-        &:hover {
-          background: rgba(0, 0, 0, .025)
-        }
-      }
-    }
+  //   .right-menu-item {
+  //     display: inline-block;
+  //     padding: 0 8px;
+  //     height: 100%;
+  //     font-size: 18px;
+  //     color: #5a5e66;
+  //     vertical-align: text-bottom;
 
-    .avatar-container {
-      margin-right: 30px;
+  //     &.hover-effect {
+  //       cursor: pointer;
+  //       transition: background .3s;
 
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
+  //       &:hover {
+  //         background: rgba(0, 0, 0, .025)
+  //       }
+  //     }
+  //   }
 
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
+  //   .avatar-container {
+  //     margin-right: 30px;
 
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
+  //     .avatar-wrapper {
+  //       margin-top: 5px;
+  //       position: relative;
+
+  //       .user-avatar {
+  //         cursor: pointer;
+  //         width: 40px;
+  //         height: 40px;
+  //         border-radius: 10px;
+  //       }
+
+  //       .el-icon-caret-bottom {
+  //         cursor: pointer;
+  //         position: absolute;
+  //         right: -20px;
+  //         top: 25px;
+  //         font-size: 12px;
+  //       }
+  //     }
+  //   }
+  // }
 }
 </style>

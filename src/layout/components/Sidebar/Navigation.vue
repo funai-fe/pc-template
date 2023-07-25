@@ -6,7 +6,7 @@
       :key="index"
     >
       <div v-if="!collapse" class="sidebar-logo-link">
-        <h1 class="sidebar-title">{{ item.name }}</h1>
+        <p class="sidebar-title">{{ item.name }}</p>
       </div>
     </transition>
     <transition name="sidebarLogoFade">

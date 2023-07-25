@@ -15,7 +15,6 @@
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml"
   },
   "dependencies": {
-    "@glidejs/glide": "^3.6.0",
     "animejs": "^3.2.1",
     "axios": "0.18.1",
     "element-ui": "2.13.0",
