@@ -6,6 +6,7 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
+    userId: '',
     avatar: '',
     roles: []
   }
@@ -19,6 +20,9 @@ const mutations = {
   },
   SET_TOKEN: (state, token) => {
     state.token = token
+  },
+  SET_USERID: (state, userId) => {
+    state.userId = userId
   },
   SET_NAME: (state, name) => {
     state.name = name
@@ -57,7 +61,7 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar } = data
+        const { roles, userId, name, avatar } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {

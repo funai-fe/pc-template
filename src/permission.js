@@ -1,12 +1,17 @@
+import Vue from 'vue';
 import router from './router'
 import store from './store'
-import { Message } from 'element-ui'
+import { Message, dialog, ElFormItem, ElInput, ElDialog, ElButton } from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+// 延迟加载登录弹窗组件
+import GlobalLoginDialog from '@/components/GlobalLoginDialog/index.vue';
+const loginDialog = new Vue(GlobalLoginDialog).$mount();
+document.body.appendChild(loginDialog.$el);
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+// NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
 const whiteList = ['/login'] // no redirect whitelist
 
@@ -61,8 +66,10 @@ router.beforeEach(async(to, from, next) => {
       // in the free login whitelist, go directly
       next()
     } else {
+      loginDialog.showDialog = true;
+      // console.log(loginDialog.showDialog)
       // other pages that do not have permission to access are redirected to the login page.
-      next(`/login?redirect=${to.path}`)
+      // next(`/login?redirect=${to.path}`)
       NProgress.done()
     }
   }
