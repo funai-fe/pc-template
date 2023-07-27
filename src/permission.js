@@ -1,19 +1,25 @@
 import Vue from 'vue';
 import router from './router'
 import store from './store'
-import { Message, dialog, ElFormItem, ElInput, ElDialog, ElButton } from 'element-ui'
+import locale from 'element-ui/lib/locale/lang/en' // lang i18n
+import 'element-ui/lib/theme-chalk/index.css'
+// import { Message } from 'element-ui'
+import ElementUI from 'element-ui'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
+
+Vue.use(ElementUI, { locale })
+
 // 延迟加载登录弹窗组件
-import GlobalLoginDialog from '@/components/GlobalLoginDialog/index.vue';
+import GlobalLoginDialog from '@/components/GlobalLoginDialog/index2.vue';
 const loginDialog = new Vue(GlobalLoginDialog).$mount();
 document.body.appendChild(loginDialog.$el);
 
 // NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login'] // no redirect whitelist
+const whiteList = ['/index','/home'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -67,7 +73,6 @@ router.beforeEach(async(to, from, next) => {
       next()
     } else {
       loginDialog.showDialog = true;
-      // console.log(loginDialog.showDialog)
       // other pages that do not have permission to access are redirected to the login page.
       // next(`/login?redirect=${to.path}`)
       NProgress.done()
