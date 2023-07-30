@@ -1,5 +1,8 @@
 
 const tokens = {
+  user: {
+    token: 'user'
+  },
   admin: {
     token: 'admin-token'
   },
@@ -9,6 +12,12 @@ const tokens = {
 }
 
 const users = {
+  'user': {
+    token:"eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJScs5ILHEPCFHSUUqtKFCyMjSzNDAHInMDHaXS4tQizxSgGgsLIxNDsxSDeANDC4t4YwsDs0QDy7R4o2RLAwsjY8t4A4NESyWIer_E3FSgjqeTOyAIKuyTWpaaAzS9FgAsyn_fdwAAAA.4Qo3RqYAH7g_RIjX5yubaFqLrOikDWBwHrPs3prkZUY3WqN9EpLJvGBQwQmn0O3jXcD5pQiVkBiscBzsw3zvOg",
+    userId:"882416d0_0188_3806a09f_2c908239_00a9",
+    userLevel: 1,
+    username:"哈哈哈"
+  },
   'admin-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
@@ -26,23 +35,23 @@ const users = {
 export default [
   // user login
   {
-    url: '/vue-admin-template/user/login',
+    url: '/user/login',
     type: 'post',
     response: config => {
-      const { username } = config.body
-      const token = tokens[username]
+      const { loginAcct } = config.body
+      const token = tokens[loginAcct]
 
       // mock error
       if (!token) {
         return {
-          code: 60204,
+          code: 10002,
           message: 'Account and password are incorrect.'
         }
       }
 
       return {
         code: 20000,
-        data: token
+        data: users[token.token]
       }
     }
   },

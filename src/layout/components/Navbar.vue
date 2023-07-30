@@ -3,8 +3,10 @@
     <div class="page-main-title">
       <span class="fixed-title">欢迎使用</span>
 
-      <img src="@/assets/common/image_logo@2x.png" class="sidebar-logo">
-      <span v-if="title" class="async-page-title"><span class="comma"> ，</span>{{ title }}</span>
+      <img src="@/assets/common/image_logo@2x.png" class="sidebar-logo" />
+      <span v-if="title" class="async-page-title"
+        ><span class="comma"> ，</span>{{ title }}</span
+      >
     </div>
   </div>
 </template>
@@ -16,16 +18,16 @@ export default {
   props: {
     title: {
       type: String,
-      default: ''
-    }
+      default: "",
+    },
   },
   methods: {
     // async logout() {
     //   await this.$store.dispatch('user/logout')
     //   this.$router.push(`/login?redirect=${this.$route.fullPath}`)
     // }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

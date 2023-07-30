@@ -10,13 +10,14 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'development') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
 
 Vue.config.productionTip = false
 Vue.prototype.$message = Message
+Vue.prototype.$store = store
 
 new Vue({
   el: '#app',

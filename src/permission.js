@@ -17,7 +17,7 @@ const loginDialog = new Vue(GlobalLoginDialog).$mount();
 store.dispatch('app/setLoginDialog', loginDialog)
 document.body.appendChild(loginDialog.$el);
 
-const whiteList = ['/index', '/home'] // 跳过登录验证白名单
+const whiteList = ['/home'] // 跳过登录验证白名单
 
 router.beforeEach(async(to, from, next) => {
   // 进度条

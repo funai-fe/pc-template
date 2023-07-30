@@ -16,13 +16,13 @@
             <h3 class="title">登录</h3>
           </div>
 
-          <el-form-item prop="username">
+          <el-form-item prop="loginAcct">
             <span class="svg-container">
               <svg-icon icon-class="user" />
             </span>
             <el-input
               ref="username"
-              v-model="loginForm.username"
+              v-model="loginForm.loginAcct"
               placeholder="用户名/手机号"
               name="username"
               type="text"
@@ -108,12 +108,12 @@ export default {
     return {
       showDialog: false,
       loginForm: {
-        username: "admin",
+        loginAcct: "user",
         password: "111111",
         loginType: 0, // 默认普通登录
       },
       loginRules: {
-        username: [
+        loginAcct: [
           { required: true, trigger: "blur", validator: validateUsername },
         ],
         password: [
