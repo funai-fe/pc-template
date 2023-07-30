@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
@@ -8,6 +8,7 @@ const getDefaultState = () => {
     name: '',
     userId: '',
     avatar: '',
+    userLevel: '',
     roles: []
   }
 }
@@ -27,6 +28,9 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
+  SET_USER_LEVEL: (state, userLevel) => {
+    state.userLevel = userLevel
+  },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
@@ -38,11 +42,14 @@ const mutations = {
 const actions = {
   // user login
   login({ commit }, userInfo) {
-    const { username, password } = userInfo
+    const { loginAcct, password, loginType } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ loginAcct: loginAcct.trim(), password: password, loginType: loginType }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
+        commit('SET_USERID', data.userId)
+        commit('SET_NAME', data.username)
+        commit('SET_USER_LEVEL', data.userLevel)
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -52,31 +59,29 @@ const actions = {
   },
 
   // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+  // getInfo({ commit, state }) {
+  //   return new Promise((resolve, reject) => {
+  //     getInfo(state.token).then(response => {
+  //       const { data } = response
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
+  //       if (!data) {
+  //         reject('Verification failed, please Login again.')
+  //       }
 
-        const { roles, userId, name, avatar } = data
+  //       const { roles, userId, name, avatar } = data
+  //       if (!roles || roles.length <= 0) {
+  //         reject('getInfo: roles must be a non-null array!')
+  //       }
 
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
+  //       commit('SET_ROLES', roles)
+  //       commit('SET_NAME', name)
+  //       commit('SET_AVATAR', avatar)
+  //       resolve(data)
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // },
 
   // user logout
   logout({ commit, state }) {

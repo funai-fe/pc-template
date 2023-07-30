@@ -1,5 +1,4 @@
 #app {
-
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
@@ -19,11 +18,6 @@
     left: 0;
     z-index: 1001;
     overflow: hidden;
-
-    // reset element-ui css
-    .horizontal-collapse-transition {
-      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
-    }
 
     .scrollbar-wrapper {
       overflow-x: hidden !important;
@@ -56,34 +50,6 @@
     .svg-icon {
       margin-right: 16px;
     }
-
-    .el-menu {
-      border: none;
-      height: 100%;
-      width: 100% !important;
-    }
-
-    // menu hover
-    .submenu-title-noDropdown,
-    .el-submenu__title {
-      &:hover {
-        background-color: $menuHover !important;
-      }
-    }
-
-    .is-active>.el-submenu__title {
-      color: $subMenuActiveText !important;
-    }
-
-    & .nest-menu .el-submenu>.el-submenu__title,
-    & .el-submenu .el-menu-item {
-      min-width: $sideBarWidth !important;
-      background-color: $subMenuBg !important;
-
-      &:hover {
-        background-color: $subMenuHover !important;
-      }
-    }
   }
 
   .hideSidebar {
@@ -95,52 +61,48 @@
       margin-left: 54px;
     }
 
-    .submenu-title-noDropdown {
-      padding: 0 !important;
-      position: relative;
+    // .submenu-title-noDropdown {
+    //   padding: 0 !important;
+    //   position: relative;
 
-      .el-tooltip {
-        padding: 0 !important;
+    //   .el-tooltip {
+    //     padding: 0 !important;
 
-        .svg-icon {
-          margin-left: 20px;
-        }
-      }
-    }
+    //     .svg-icon {
+    //       margin-left: 20px;
+    //     }
+    //   }
+    // }
 
-    .el-submenu {
-      overflow: hidden;
+    // .el-submenu {
+    //   overflow: hidden;
 
-      &>.el-submenu__title {
-        padding: 0 !important;
+    //   &>.el-submenu__title {
+    //     padding: 0 !important;
 
-        .svg-icon {
-          margin-left: 20px;
-        }
+    //     .svg-icon {
+    //       margin-left: 20px;
+    //     }
 
-        .el-submenu__icon-arrow {
-          display: none;
-        }
-      }
-    }
+    //     .el-submenu__icon-arrow {
+    //       display: none;
+    //     }
+    //   }
+    // }
 
-    .el-menu--collapse {
-      .el-submenu {
-        &>.el-submenu__title {
-          &>span {
-            height: 0;
-            width: 0;
-            overflow: hidden;
-            visibility: hidden;
-            display: inline-block;
-          }
-        }
-      }
-    }
-  }
-
-  .el-menu--collapse .el-menu .el-submenu {
-    min-width: $sideBarWidth !important;
+    // .el-menu--collapse {
+    //   .el-submenu {
+    //     &>.el-submenu__title {
+    //       &>span {
+    //         height: 0;
+    //         width: 0;
+    //         overflow: hidden;
+    //         visibility: hidden;
+    //         display: inline-block;
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   // mobile responsive
@@ -164,7 +126,6 @@
   }
 
   .withoutAnimation {
-
     .main-container,
     .sidebar-container {
       transition: none;
@@ -172,38 +133,197 @@
   }
 }
 
-// when menu collapsed
-.el-menu--vertical {
-  &>.el-menu {
-    .svg-icon {
-      margin-right: 16px;
+
+// 菜单头部样式---start
+// src/layout/components/Sidebar/Logo.vue
+.sidebarLogoFade-enter-active {
+  transition: opacity 1.5s;
+}
+.sidebarLogoFade-enter,
+.sidebarLogoFade-leave-to {
+  opacity: 0;
+}
+.sidebar-logo-container {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  line-height: 50px;
+  background: #F9FAFB;
+  overflow: hidden;
+  border-bottom: 1px solid #E5E7EB;
+
+  & .sidebar-logo-link {
+    display: flex!important;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+
+    &.hideLogo {
+      justify-content: flex-end;
+    }
+
+    & .sidebar-logo {
+      width: 78px;
+      height: 70px;
+      vertical-align: middle;
+      margin-left: 13px;
+      &.scale {
+        transform: scale(.7);
+        margin-left: -14px;
+      }
+    }
+
+    .hamburger-container {
+      padding: 0 30px;
+      &.hidden {
+        display: none;
+      }
     }
   }
 
-  .nest-menu .el-submenu>.el-submenu__title,
-  .el-menu-item {
-    &:hover {
-      // you can use $subMenuHover
-      background-color: $menuHover !important;
-    }
-  }
-
-  // the scroll bar appears when the subMenu is too long
-  >.el-menu--popup {
-    max-height: 100vh;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar-track-piece {
-      background: #d3dce6;
-    }
-
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: #99a9bf;
-      border-radius: 20px;
+  &.collapse {
+    .sidebar-logo {
+      margin-right: 0px;
     }
   }
 }
+// 菜单头部样式---end
+
+
+// 菜单样式---start
+// src/layout/components/Sidebar/Menu.vue
+.sidebarLogoFade-enter-active {
+  transition: opacity 1.5s;
+}
+
+.sidebarLogoFade-enter,
+.sidebarLogoFade-leave-to {
+  opacity: 0;
+}
+
+.sidebar-menu-container {
+  width: 100%;
+  background: #f9fafb;
+  padding: 10px 30px;
+  &.collapse {
+    padding: 10px 0;
+    &:hover {
+      cursor: pointer;
+      background-color: #F3F4F6;
+    }
+  }
+
+  & .sidebar-logo-link {
+    overflow: inherit !important;
+    position: relative;
+
+    &.collapse {
+      display: flex !important;
+      align-items: center !important;
+      flex-direction: column;
+      height: 42px!important;
+      position: relative;
+      left: 2px;
+      // &:hover {
+      //   cursor: pointer;
+      //   background-color: red;
+      // }
+      & .menu-icon {
+        margin: 9px 0;
+      }
+    }
+  }
+  .menu-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+}
+
+.sidebar-menu-container .el-collapse-item__header {
+  background-color: #f9fafb;
+  border-bottom: none;
+  height: 42px;
+  font-size: 18px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  color: #6c727f;
+}
+.sidebar-menu-container .el-collapse-item__header .el-collapse-item__arrow {
+  margin: 0 0 0 auto;
+}
+
+.sidebar-menu-container .el-collapse-item__wrap {
+  background-color: #f9fafb;
+  border-bottom: none;
+}
+.sidebar-menu-container .el-collapse {
+  border: none;
+}
+// 菜单样式---end
+
+
+
+// 菜单底部——————start
+// src/layout/components/Sidebar/Navigation.vue
+.sidebarLogoFade-enter-active {
+  transition: opacity 1.5s;
+}
+
+.sidebarLogoFade-enter,
+.sidebarLogoFade-leave-to {
+  opacity: 0;
+}
+
+.sidebar-nav-container {
+  height: 142px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: #f9fafb;
+  padding: 16px 30px;
+  overflow: hidden;
+  border-top: 1px solid #e5e7eb;
+
+  & .sidebar-logo-link {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    &.user-dropdown {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    & .sidebar-title {
+      font-size: 14px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      display: inline-block;
+      margin: 0;
+      color: #6c727f;
+      vertical-align: middle;
+    }
+
+    .el-dropdown {
+      width: 100%;
+      cursor: pointer;
+
+
+      .el-dropdown-link {
+        align-items: center;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        // line-height: 30px;
+        font-size: 14px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        color: #6c727f;
+      }
+    }
+  }
+}
+// 菜单底部——————end

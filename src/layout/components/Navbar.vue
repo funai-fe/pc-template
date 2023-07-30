@@ -1,64 +1,25 @@
 <template>
   <div class="navbar">
     <div class="page-main-title">
-      <span>欢迎使用</span>
-      
-      <!-- <img
-          src="@/assets/common/image_logo@2x.png"
-          class="sidebar-logo"
-        /> -->
-        <span> ，你可以尝试这样问我</span></div>
-    <!-- <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
+      <span class="fixed-title">欢迎使用</span>
 
-    <!-- <breadcrumb class="breadcrumb-container" /> -->
-
-    <!-- <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img :src="avatar+'?imageView2/1/w/80/h/80'" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div> -->
+      <img src="@/assets/common/image_logo@2x.png" class="sidebar-logo">
+      <span v-if="title" class="async-page-title"><span class="comma"> ，</span>{{ title }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 // import { mapGetters } from 'vuex'
-// import Breadcrumb from '@/components/Breadcrumb'
-// import Hamburger from '@/components/Hamburger'
 
 export default {
-  components: {
-    // Breadcrumb,
-    // Hamburger
-  },
-  computed: {
-    // ...mapGetters([
-    //   'sidebar',
-    //   // 'avatar'
-    // ])
+  props: {
+    title: {
+      type: String,
+      default: ''
+    }
   },
   methods: {
-    // toggleSideBar() {
-    //   this.$store.dispatch('app/toggleSideBar')
-    // },
     // async logout() {
     //   await this.$store.dispatch('user/logout')
     //   this.$router.push(`/login?redirect=${this.$route.fullPath}`)
@@ -72,88 +33,78 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 120px;
-  padding-top: 65px;
+  padding-top: 40px;
   overflow: hidden;
   position: relative;
   background: #fff;
-  // box-shadow: 0 1px 4px rgba(0,21,41,.08);
-  & .page-main-title span{
-    font-size: 36px;
-    font-family: PingFangSC-Medium, PingFang SC;
-    color: #333333;
+  & .page-main-title {
+    position: relative;
+    height: 104px;
+    padding-top: 22px;
+    span {
+      font-size: 36px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      color: #333333;
+      line-height: 50px;
+      &.async-page-title {
+        margin-left: 118px;
+      }
+    }
+    .sidebar-logo {
+      position: absolute;
+      top: -5px;
+      height: 104px;
+    }
   }
-  .sidebar-logo {
-    position:absolute;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding-top: 30px;
+    & .page-main-title {
+      height: 78px;
+      padding-top: 12px;
+      span {
+        font-size: 28px;
+        line-height: 50px;
+        &.async-page-title {
+          margin-left: 88px;
+        }
+      }
+      .sidebar-logo {
+        top: -3px;
+        height: 80px;
+      }
+    }
   }
-
-  // .hamburger-container {
-  //   line-height: 68px;
-  //   height: 100%;
-  //   float: left;
-  //   cursor: pointer;
-  //   transition: background .3s;
-  //   -webkit-tap-highlight-color:transparent;
-
-  //   &:hover {
-  //     background: rgba(0, 0, 0, .025)
-  //   }
-  // }
-
-  // .breadcrumb-container {
-  //   float: left;
-  // }
-
-  // .right-menu {
-  //   float: right;
-  //   height: 100%;
-  //   line-height: 50px;
-
-  //   &:focus {
-  //     outline: none;
-  //   }
-
-  //   .right-menu-item {
-  //     display: inline-block;
-  //     padding: 0 8px;
-  //     height: 100%;
-  //     font-size: 18px;
-  //     color: #5a5e66;
-  //     vertical-align: text-bottom;
-
-  //     &.hover-effect {
-  //       cursor: pointer;
-  //       transition: background .3s;
-
-  //       &:hover {
-  //         background: rgba(0, 0, 0, .025)
-  //       }
-  //     }
-  //   }
-
-  //   .avatar-container {
-  //     margin-right: 30px;
-
-  //     .avatar-wrapper {
-  //       margin-top: 5px;
-  //       position: relative;
-
-  //       .user-avatar {
-  //         cursor: pointer;
-  //         width: 40px;
-  //         height: 40px;
-  //         border-radius: 10px;
-  //       }
-
-  //       .el-icon-caret-bottom {
-  //         cursor: pointer;
-  //         position: absolute;
-  //         right: -20px;
-  //         top: 25px;
-  //         font-size: 12px;
-  //       }
-  //     }
-  //   }
-  // }
+}
+@media (max-width: 576px) {
+  .navbar {
+    padding-top: 5px;
+    & .page-main-title {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 60px;
+      span {
+        font-size: 16px;
+        line-height: 24px;
+        &.fixed-title {
+          margin-right: 60px;
+        }
+        &.async-page-title {
+          margin-left: 0;
+          & .comma {
+            display: none;
+          }
+        }
+      }
+      .sidebar-logo {
+        margin-left: 60px;
+        top: -3px;
+        height: 52px;
+      }
+    }
+  }
 }
 </style>

@@ -1,23 +1,21 @@
 // 左菜单全局样式
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5;
+// $subMenuActiveText:#f4f4f5;
 
-$menuBg:#F9FAFB;
-$menuHover:#263445;
+$menuBg:#F9FAFB; //左菜单背景颜色
+// $menuHover:#263445;
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+// $subMenuBg:#1f2d3d;
+// $subMenuHover:#001528;
 
-$sideBarWidth: 325px;
+$pageCommonHeigth: 144; // 头部高度
+$sideBarWidth: 325px; // 菜单宽度
 
 :export {
-  menuText: $menuText;
-  menuActiveText: $menuActiveText;
-  subMenuActiveText: $subMenuActiveText;
+  pageCommonHeigth: $pageCommonHeigth;
+  // subMenuActiveText: $subMenuActiveText;
   menuBg: $menuBg;
-  menuHover: $menuHover;
-  subMenuBg: $subMenuBg;
-  subMenuHover: $subMenuHover;
+  // menuHover: $menuHover;
+  // subMenuBg: $subMenuBg;
+  // subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
 }

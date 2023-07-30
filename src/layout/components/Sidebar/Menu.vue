@@ -5,7 +5,7 @@
         v-if="!collapse"
         key="collapse"
         class="sidebar-logo-link"
-        to="/"
+        to="/index"
       >
         <el-collapse accordion>
           <el-collapse-item>
@@ -77,32 +77,11 @@
         </el-collapse>
       </router-link>
 
-      <!-- <template v-else>
-        <el-tooltip v-if="icons.duihua" class="tooltip-item" effect="dark" content="AI对话" placement="right">
-          <router-link
-            key="expand"
-            class="sidebar-logo-link collapse"
-            to="/"
-          >
-            <img :src="icons.duihua" class="menu-icon" />
-          </router-link>
-        </el-tooltip>
-        <el-tooltip v-if="icons.duowenjian" class="tooltip-item" effect="dark" content="AI对话" placement="right">
-          <router-link
-            key="expand"
-            class="sidebar-logo-link collapse"
-            to="/"
-          >
-            <img :src="icons.duowenjian" class="menu-icon" />
-          </router-link>
-        </el-tooltip>
-      </template> -->
-
       <router-link
         v-else
         key="expand"
         class="sidebar-logo-link collapse"
-        to="/"
+        to="/index"
       >
         <el-tooltip v-if="icons.duihua" class="tooltip-item" effect="dark" content="AI对话" placement="right">
           <img :src="icons.duihua" class="menu-icon" />
@@ -165,75 +144,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["name"]),
+    // ...mapGetters(["name"]),
   },
 };
 </script>
-<style lang="scss" scoped>
-.sidebarLogoFade-enter-active {
-  transition: opacity 1.5s;
-}
-
-.sidebarLogoFade-enter,
-.sidebarLogoFade-leave-to {
-  opacity: 0;
-}
-
-.sidebar-menu-container {
-  width: 100%;
-  background: #f9fafb;
-  padding: 10px 30px;
-  &.collapse {
-    padding: 10px 0;
-    &:hover {
-      cursor: pointer;
-      background-color: #F3F4F6;
-    }
-  }
-
-  & .sidebar-logo-link {
-    overflow: inherit !important;
-    position: relative;
-    left: -14px;
-
-    &.collapse {
-      display: flex !important;
-      align-items: center !important;
-      flex-direction: column;
-      height: 42px!important;
-      position: relative;
-      left: 2px;
-      // &:hover {
-      //   cursor: pointer;
-      //   background-color: red;
-      // }
-      & .menu-icon {
-        margin: 9px 0;
-      }
-    }
-  }
-  .menu-icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 10px;
-  }
-}
-</style>
-<style>
-.sidebar-menu-container .el-collapse-item__header {
-  background-color: #f9fafb;
-  border-bottom: none;
-  height: 42px;
-  font-size: 18px;
-  font-family: PingFangSC-Medium, PingFang SC;
-  color: #6c727f;
-}
-
-.sidebar-menu-container .el-collapse-item__wrap {
-  background-color: #f9fafb;
-  border-bottom: none;
-}
-.sidebar-menu-container .el-collapse {
-  border: none;
-}
-</style>

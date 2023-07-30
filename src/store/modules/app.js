@@ -5,7 +5,8 @@ const state = {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
     withoutAnimation: false
   },
-  device: 'desktop'
+  device: 'desktop',
+  loginDialog: null // 弹窗实例
 }
 
 const mutations = {
@@ -25,6 +26,15 @@ const mutations = {
   },
   TOGGLE_DEVICE: (state, device) => {
     state.device = device
+  },
+  SET_LOGIN_DIALOG: (state, dialog) => {
+    state.loginDialog = dialog
+  },
+  SHOW_LOGIN_DIALOG: (state, cb) => {
+    state.loginDialog.handleOpen(cb)
+  },
+  HIDE_LOGIN_DIALOG: (state, cb) => {
+    state.loginDialog.handleClose()
   }
 }
 
@@ -37,6 +47,15 @@ const actions = {
   },
   toggleDevice({ commit }, device) {
     commit('TOGGLE_DEVICE', device)
+  },
+  setLoginDialog({ commit }, dialog) {
+    commit('SET_LOGIN_DIALOG', dialog)
+  },
+  showLoginDalog({ commit }, cb) {
+    commit('SHOW_LOGIN_DIALOG', cb)
+  },
+  showHideDalog({ commit }) {
+    commit('HIDE_LOGIN_DIALOG')
   }
 }
 

@@ -29,8 +29,7 @@ export default {
   mixins: [ResizeMixin],
   computed: {
     ...mapGetters([
-      'sidebar',
-      // 'avatar'
+      'sidebar'
     ]),
     sidebar() {
       return this.$store.state.app.sidebar
@@ -64,7 +63,6 @@ export default {
 <style lang="scss" scoped>
   @import "~@/styles/mixin.scss";
   @import "~@/styles/variables.scss";
-  
   .app-wrapper {
     @include clearfix;
     position: relative;
@@ -73,6 +71,11 @@ export default {
     &.mobile.openSidebar{
       position: fixed;
       top: 0;
+    }
+    &.mobile{
+      .hamburger-container {
+        left: 0;
+      }
     }
   }
   .drawer-bg {
@@ -85,9 +88,12 @@ export default {
     z-index: 999;
   }
   .hamburger-container {
+    position: fixed;
+    top: 0px;
+    left: 54px;
+    z-index: 10;
+    padding: 0 15px;
     line-height: 68px;
-    height: 100%;
-    float: left;
     cursor: pointer;
     transition: background .3s;
     -webkit-tap-highlight-color:transparent;

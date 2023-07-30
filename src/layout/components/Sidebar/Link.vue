@@ -7,6 +7,8 @@
 </template>
 
 <script>
+// example:
+{/* <link :to="resolvePath(path)"> */}
 import { isExternal } from '@/utils/validate'
 
 export default {

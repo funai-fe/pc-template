@@ -1,6 +1,5 @@
 <template>
   <section class="app-main">
-    <!-- <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
     <transition name="fade-transform" mode="out-in">
       <router-view :key="key" />
     </transition>
@@ -9,12 +8,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-// import Hamburger from '@/components/Hamburger'
 export default {
   name: 'AppMain',
-  components: {
-    // Hamburger
-  },
   computed: {
     ...mapGetters([
       'sidebar'
@@ -23,38 +18,37 @@ export default {
       return this.$route.path
     }
   },
-  methods: {
-    // toggleSideBar() {
-    //   this.$store.dispatch('app/toggleSideBar')
-    // }
-  }
+  methods: {}
 }
 </script>
 
 <style lang="scss" scoped>
 .app-main {
-  /*50 = navbar  */
-  min-height: calc(100vh - 50px);
+  min-height: calc(100vh - 144px);
   width: 100%;
   position: relative;
   overflow: hidden;
-
-  // .hamburger-container {
-  //   line-height: 46px;
-  //   height: 100%;
-  //   float: left;
-  //   cursor: pointer;
-  //   transition: background .3s;
-  //   -webkit-tap-highlight-color:transparent;
-
-  //   &:hover {
-  //     background: rgba(0, 0, 0, .025)
-  //   }
-  // }
 }
 
 .fixed-header+.app-main {
-  padding-top: 50px;
+  padding-top: 144px;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    min-height: calc(100vh - 108px);
+  }
+  .fixed-header+.app-main {
+    padding-top: 108px;
+  }
+}
+@media (max-width: 576px) {
+  .app-main {
+    min-height: calc(100vh - 65px);
+  }
+  .fixed-header+.app-main {
+    padding-top: 65px;
+  }
 }
 </style>
 

@@ -1,22 +1,22 @@
 <template>
     <div ref="headerEl" :class="['header', isOpen ? 'open' : '', isSticky ? 'sticky' : '']">
         <div class="left-menu menu">
-            <img class="logo" src="@/assets/index/image_bczj.png" alt="">
+            <img class="logo" src="@/assets/common/image_logo@2x.png" alt="logo">
             <div class="nav">
-                <router-link v-for="nav in leftNavs" :to="nav.link">
+                <router-link v-for="(nav,index) in leftNavs" :key="index" :to="nav.link">
                     <span class="nav-item">{{ nav.name }}</span>
                 </router-link>
             </div>
         </div>
         <div class="right-menu nav">
-            <router-link v-for="nav in rightNavs" :to="nav.link">
+            <router-link v-for="(nav,index) in rightNavs" :key="index" :to="nav.link">
                 <span class="nav-item">{{ nav.name }}</span>
             </router-link>
         </div>
 
         <i class="burger" :class="isOpen ? 'el-icon-close' : 'el-icon-s-fold'" @click="openNav"></i>
         <div class="mobile-nav">
-            <router-link v-for="nav in leftNavs.concat(rightNavs)" :to="nav.link">
+            <router-link v-for="(nav, index) in leftNavs.concat(rightNavs)" :key="index" :to="nav.link">
                 <span class="nav-item">{{ nav.name }}</span>
             </router-link>
         </div>
@@ -57,7 +57,7 @@ export default {
                 link: '/'
             }, {
                 name: '开始使用',
-                link: '/'
+                link: '/index'
             }]
         }
     },
@@ -109,7 +109,6 @@ export default {
             width: 67px;
             height: 57px;
             margin-right: 30px;
-            background-color: #ccc;
         }
     }
 
