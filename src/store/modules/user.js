@@ -1,14 +1,14 @@
 import { login, logout } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, getUserName, getUserId, getUserLevel, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
-    userId: '',
+    name: getUserName(),
+    userId: getUserId(),
     avatar: '',
-    userLevel: '',
+    userLevel: getUserLevel(),
     roles: []
   }
 }
@@ -50,7 +50,7 @@ const actions = {
         commit('SET_USERID', data.userId)
         commit('SET_NAME', data.username)
         commit('SET_USER_LEVEL', data.userLevel)
-        setToken(data.token)
+        setToken(data)
         resolve()
       }).catch(error => {
         reject(error)

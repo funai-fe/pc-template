@@ -13,10 +13,10 @@ const tokens = {
 
 const users = {
   'user': {
-    token:"eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJScs5ILHEPCFHSUUqtKFCyMjSzNDAHInMDHaXS4tQizxSgGgsLIxNDsxSDeANDC4t4YwsDs0QDy7R4o2RLAwsjY8t4A4NESyWIer_E3FSgjqeTOyAIKuyTWpaaAzS9FgAsyn_fdwAAAA.4Qo3RqYAH7g_RIjX5yubaFqLrOikDWBwHrPs3prkZUY3WqN9EpLJvGBQwQmn0O3jXcD5pQiVkBiscBzsw3zvOg",
-    userId:"882416d0_0188_3806a09f_2c908239_00a9",
+    token: "eyJhbGciOiJIUzUxMiIsInppcCI6IkdaSVAifQ.H4sIAAAAAAAAAKtWKi5NUrJScs5ILHEPCFHSUUqtKFCyMjSzNDAHInMDHaXS4tQizxSgGgsLIxNDsxSDeANDC4t4YwsDs0QDy7R4o2RLAwsjY8t4A4NESyWIer_E3FSgjqeTOyAIKuyTWpaaAzS9FgAsyn_fdwAAAA.4Qo3RqYAH7g_RIjX5yubaFqLrOikDWBwHrPs3prkZUY3WqN9EpLJvGBQwQmn0O3jXcD5pQiVkBiscBzsw3zvOg",
+    userId: "882416d0_0188_3806a09f_2c908239_00a9",
     userLevel: 1,
-    username:"哈哈哈"
+    username: "哈哈哈"
   },
   'admin-token': {
     roles: ['admin'],
@@ -81,13 +81,74 @@ export default [
 
   // user logout
   {
-    url: '/vue-admin-template/user/logout',
+    url: '/user/logout\.*',
     type: 'post',
     response: _ => {
+      return { "code": 20000, "message": "成功", "data": {} }
+    }
+  },
+
+  // 签到接口
+  {
+    url: '/user/dailyAttendance',
+    type: 'get',
+    response: config => {
+      return { "code": 20000, "message": "已成功领取当日的签到额度！", "data": {} }
+    }
+  },
+
+  // 获取额度
+  {
+    url: '/user/getUserQuotaInfo/\.*',
+    type: 'get',
+    response: config => {
+
       return {
-        code: 20000,
-        data: 'success'
+        "code": 20000,
+        "message": "成功",
+        "data": {
+          "data": {
+            "dailyChatQuota": 50,
+            "dailySingleFileQuota": 5,
+            "dailyMultiFileQuota": 2,
+            "dailyText2ImgQuota": 50,
+            "dailyChatUsage": 0,
+            "dailySingleFileUsage": 0,
+            "dailyMultiFileUsage": 0,
+            "dailyText2ImgUsage": 0,
+            "permanentChatQuota": 15,
+            "permanentSingleFileQuota": 3,
+            "permanentMultiFileQuota": 3,
+            "permanentText2ImgQuota": 9,
+            "permanentChatUsage": 0,
+            "permanentSingleFileUsage": 0,
+            "permanentMultiFileUsage": 0,
+            "permanentText2ImgUsage": 0
+          }
+        }
       }
     }
-  }
+  },
+
+  // 获取邀请码
+  {
+    url: '/user/getInviteRecord/\.*',
+    type: 'get',
+    response: config => {
+
+      return {
+        "code": 20000,
+        "message": "成功",
+        "data": {
+          "record": {
+            "id": 54,
+            "parentUserId": null,
+            "userId": "882416d0_0188_3806a09f_2c908239_00a9",
+            "code": "AL2jRvxBuT",
+            "invitedNum": 0
+          }
+        }
+      }
+    }
+  },
 ]

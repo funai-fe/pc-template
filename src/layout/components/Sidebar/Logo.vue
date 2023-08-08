@@ -1,11 +1,9 @@
 <template>
   <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
-      <router-link
+      <div
         v-if="collapse"
-        key="collapse"
         class="sidebar-logo-link"
-        to="/index"
       >
         <img
           v-if="logo && showLogo"
@@ -19,8 +17,8 @@
           :class="{ hidden: !showLogo }"
           @toggleClick="toggleSideBar"
         />
-      </router-link>
-      <router-link v-else key="expand" class="sidebar-logo-link" :class="{ hideLogo: !showLogo }" to="/index">
+      </div>
+      <div v-else class="sidebar-logo-link" :class="{ hideLogo: !showLogo }">
         <img
           v-if="logo && showLogo"
           :src="logo"
@@ -31,7 +29,7 @@
           class="hamburger-container"
           @toggleClick="toggleSideBar"
         />
-      </router-link>
+      </div>
     </transition>
   </div>
 </template>

@@ -24,6 +24,7 @@ export default {
 
 <style lang="scss" scoped>
 .app-main {
+  height: 100%;
   min-height: calc(100vh - 144px);
   width: 100%;
   position: relative;

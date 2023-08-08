@@ -49,22 +49,14 @@ export const constantRoutes = [
       name: 'Index',
       component: () => import('@/views/index/index'),
       hidden: true,
-      meta: { title: 'Index', icon: 'index' }
+      meta: { title: 'Index', icon: 'index', showHeader: true, headerTitle: '你可以尝试这样问我' }
+    }, {
+      path: '/chat/:sessionId',
+      name: 'Chat',
+      meta: { title: 'Chat', icon: 'chat' },
+      component: () => import('@/views/chat/index')
     }]
-  },
-  // {
-  //   path: '/upload',
-  //   component: Layout,
-  //   meta: { title: 'Upload', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Upload',
-  //       component: () => import('@/views/upload/index'),
-  //       meta: { title: 'upload', icon: 'form' }
-  //     }
-  //   ]
-  // }
+  }
 ]
 
 /**
