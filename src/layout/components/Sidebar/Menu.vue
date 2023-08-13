@@ -7,7 +7,7 @@
         class="sidebar-logo-link"
         to="/index"
       >
-        <el-collapse accordion v-model="activeName">
+        <el-collapse accordion v-model="activeName" @change="onChange">
           <el-collapse-item name="duihua">
             <template slot="title">
               <img class="menu-icon" :src="icons.duihua" alt="" />
@@ -57,8 +57,8 @@
             </template>
           </el-collapse-item>
 
-          <el-collapse-item>
-            <template slot="title">
+          <el-collapse-item name="smart-language">
+            <template slot="title" >
               <img class="menu-icon" :src="icons.yuyan" alt="" />
               语言专家
             </template>
@@ -167,6 +167,12 @@ export default {
   },
   methods: {
     ...mapActions("chat", ["selectSession"]),
+    onChange(name) {
+      console.log(name);
+      this.$router.push({
+        path: name
+      })
+    }
   },
 };
 </script>
