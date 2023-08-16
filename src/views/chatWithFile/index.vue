@@ -1,41 +1,46 @@
 <template>
   <div class="chatgpt-container">
-    <FileViewer />
-    <ChatSession :sessionId="currentSession" :isMiniSize="true"/>
-    <!-- <ChatInput @newMessage="sendMessage" /> -->
+    <FileViewer :fileUrl="fileUrl" width="45%" class="file-viewer" />
+    <ChatSession
+      :type="chatType"
+      class="chat-session"
+      :sessionId="currentSession"
+      :isMiniSize="true"
+    />
   </div>
 </template>
   
   <script>
-import { mapGetters, mapActions } from "vuex";
-import { getSessionList, getSessionChatRecord } from "@/api/chat";
+import { mapGetters } from "vuex";
 import ChatSession from "@/components/ChatSession/index.vue";
 import FileViewer from "@/components/FileViewer/index.vue";
-// import ChatInput from "@/components/ChatInput/index.vue";
+import { chatTypeMap } from "@/config/index";
 
 export default {
   components: {
     ChatSession,
-    FileViewer
-    // ChatInput,
+    FileViewer,
+  },
+  data() {
+    return {
+      chatType: chatTypeMap["pdfChat"].chatType,
+    };
   },
   computed: {
-    ...mapGetters(["currentSession", "userId", "sessions"]),
+    ...mapGetters(["menus", "currentSession"]),
+    fileUrl() {
+      const sessions =
+        this.menus.find((session) => session.type === this.chatType) || [];
+      const session =
+        sessions.sessions &&
+        sessions.sessions.find(
+          (item) => item.session_id === this.currentSession
+        );
+      return session && session.file ? session.file[0].fileUrl : "";
+    },
   },
-  methods: {
-    ...mapActions("chat", ["fetchSessions", "fetchMessages"]),
-    // sendMessage(message) {
-    //     if (this.currentSession) {
-    //     // const messages = sendMessageToSession(this.currentSession, message);
-    //     // this.$store.commit('setSessionMessages', { sessionId: this.currentSession, messages });
-    //   }
-    // },
-  },
-//   async created() {
-//     console.log(this.currentSession, "qqqqqq");
-//     await this.fetchSessions({user_id: this.userId, type: 0})
-//     await this.fetchMessages(this.currentSession)
-//   },
+  methods: {},
+  async created() {},
 };
 </script>
 <style lang="scss" scoped>
@@ -43,6 +48,9 @@ export default {
 .chatgpt-container {
   display: flex;
   height: 100%;
+  .chat-session {
+    flex: 1;
+  }
 }
 </style>
   

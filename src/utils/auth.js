@@ -4,6 +4,7 @@ const TokenKey = 'token'
 const UserIdKey = 'userId'
 const UserNameKey = 'userName'
 const UserLevelKey = 'userLevel'
+const CurrentSessionKey = 'currentSession'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -30,4 +31,14 @@ export function removeToken() {
   Cookies.remove(UserIdKey)
   Cookies.remove(UserNameKey)
   Cookies.remove(UserLevelKey)
+}
+
+export function getCurrentSession() {
+  return Cookies.get(CurrentSessionKey)
+}
+export function setCurrentSession(currentSession) {
+  Cookies.set(CurrentSessionKey, currentSession)
+}
+export function removeCurrentSession() {
+  Cookies.remove(CurrentSessionKey)
 }

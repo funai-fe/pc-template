@@ -84,6 +84,21 @@ export default {
       activeName: "normalChat",
     };
   },
+  // beforeRouteEnter(to, from, next) {
+  //   // const sessionId = to.params.sessionId;
+  //   // if (sessionId) {
+  //   //   this.setCurrentSessionId(sessionId);
+  //   // }
+  //   console.log("路由变化啦～～～～～");
+
+  //   next();
+  // },
+  watch: {
+    "$route.path"(newPath) {
+      // this.updateMenuHighlight(newPath);
+      console.log("路由变化啦～～～～～");
+    },
+  },
   computed: {
     ...mapGetters(["menus", "currentSession"]),
   },
@@ -95,66 +110,21 @@ export default {
     ...mapActions("menu", ["selectSession", "fetchSessions"]),
     selectSessionItem(menu, session) {
       if (session.session_id === this.currentSession) {
-        return
+        return;
       }
 
       this.selectSession({
         page: this,
         menu,
-        session
-      })
-
-      
-      return
-      let { addRouteName = "", routeName = "" } = menu || {};
-      let creatParams = null;
-      let linkFn = undefined;
-      switch (session.type) {
-        case 0:
-          linkFn = () => {
-            this.SET_CURRENT_SESSION(session.session_id);
-          };
-          break;
-        case 1:
-          creatParams = { type: "single" };
-          linkFn = () => {
-            this.fileChatSelectSession(session.session_id);
-          };
-          break;
-        case 2:
-          linkFn = () => {
-            // this.gameChatSelectSession(session.session_id);
-          };
-          break;
-        case 4:
-          creatParams = { type: "multiple" };
-          linkFn = () => {
-            this.fileChatSelectSession(session.session_id);
-          };
-      }
-
-      if (session.key === "add") {
-        this.selectSession(null);
-        creatParams
-          ? this.$router.push({ name: addRouteName, params: creatParams })
-          : this.$router.push({ name: addRouteName });
-      } else {
-        linkFn();
-        // 跳转对应路由页面
-        this.$router.push({
-          name: routeName,
-          params: { sessionId: session.session_id },
-        });
-      }
+        session,
+      });
     },
   },
-  created() {
-    this.fetchSessions()
-
-
-    // },1000)
-    // console.log(this.menus, 'pppppp', this.sessions)
-    // this.fetchSessions()
-  }
+  async created() {
+    // if (this.currentSession) {
+    await this.fetchSessions();
+    
+    // }
+  },
 };
 </script>

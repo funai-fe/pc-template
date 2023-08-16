@@ -57,7 +57,9 @@ service.interceptors.response.use(
         // to re-login
         store.dispatch('user/resetToken').then(() => {
           // location.reload()
-            store.dispatch('app/showLoginDalog', () => {})
+            setTimeout(() => {
+              store.dispatch('app/showLoginDalog', () => {})
+            }, 800)
         })
       }
       return Promise.reject(new Error(res.message || 'Error'))

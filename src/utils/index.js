@@ -101,3 +101,12 @@ export function param2Obj(url) {
       '"}'
   )
 }
+
+/**
+ * 使用正则表达式判断链接是否以 .pdf 结尾
+ * @param {string} url
+ * @returns {Boolean}
+ */
+export function isPDFFile(url) {
+  return /\.pdf$/i.test(url);
+}

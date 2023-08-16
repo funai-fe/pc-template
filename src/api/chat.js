@@ -22,20 +22,25 @@ export function getSessionList(params) {
     return request({
         url: `/chat/getSessionList/${params.user_id}/${params.type}`,
         method: 'get',
-        params: params
+        params
     })
 }
 
 // 获取聊天信息
 export function getSessionChatRecord(params) {
     return request({
-        // 生产用这个
-        // url: `/chat/getSessionChatRecord/${params.sessionId}`,
-
-        // dev用这个url
-        url: `/chat/getSessionChatRecord/${params.sessionId}?sessionId=${params.sessionId}`,
+        url: `/chat/getSessionChatRecord/${params.sessionId}`,
         method: 'get',
         params,
+    })
+}
+
+// 获取聊天的文件
+export function getFileChatBySessionId(params) {
+    return request({
+        url: `/file/getFileChatBySessionId/${params.sessionId}`,
+        method: 'get',
+        params
     })
 }
 

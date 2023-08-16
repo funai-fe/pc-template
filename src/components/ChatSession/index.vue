@@ -1,7 +1,11 @@
 <template>
   <div class="chatgpt-page">
-    <ChatMessages :messages="sessionMessages" :isMiniSize="isMiniSize"/>
-    <ChatInput class="chat-input" @newMessage="addMessage" :isMiniSize="isMiniSize"/>
+    <ChatMessages :messages="sessionMessages" :isMiniSize="isMiniSize" />
+    <ChatInput
+      class="chat-input"
+      @newMessage="addMessage"
+      :isMiniSize="isMiniSize"
+    />
   </div>
 </template>
     
@@ -18,8 +22,8 @@ export default {
     },
     type: {
       type: Number,
-      default: -1
-    }
+      default: -1,
+    },
   },
   components: {
     ChatMessages,
@@ -31,10 +35,15 @@ export default {
   computed: {
     ...mapGetters(["menus", "currentSession"]),
     sessionMessages() {
-      console.log(this.menus, this.currentSession, this.type);
+      // console.log(this.menus, this.currentSession, this.type);
       // debugger
-      const sessions = this.menus.find((session) => session.type === this.type) || [];
-      const session = sessions.sessions && sessions.sessions.find((item) => item.session_id === this.currentSession)
+      const sessions =
+        this.menus.find((session) => session.type === this.type) || [];
+      const session =
+        sessions.sessions &&
+        sessions.sessions.find(
+          (item) => item.session_id === this.currentSession
+        );
       return session ? session.messages : [];
     },
   },
@@ -42,21 +51,20 @@ export default {
     // currentSession(newSessionId) {
     //   if (newSessionId) {
     //     this.$nextTick(() => {
-
     //     })
     //   }
     // },
   },
   methods: {
     // ...mapActions("chat", [
-      // "addMessageToSession",
-      // "fetchSessions",
-      // "fetchMessages",
+    // "addMessageToSession",
+    // "fetchSessions",
+    // "fetchMessages",
     // ]),
     addMessage(message) {
-      if (this.currentSession) {
-        // this.addMessageToSession({ sessionId: this.currentSession, message });
-      }
+      // if (this.currentSession) {
+      // this.addMessageToSession({ sessionId: this.currentSession, message });
+      // }
     },
   },
   async created() {
@@ -66,8 +74,7 @@ export default {
     //   await this.fetchMessages(this.currentSession);
     // }
   },
-  mounted() {
-  },
+  mounted() {},
 };
 </script>
 <style lang="scss" scoped>

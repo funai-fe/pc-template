@@ -61,7 +61,7 @@ export const constantRoutes = [
       meta: { title: 'ChatWithFile', icon: '', showHeader: true, headerTitle: '与文件聊天' },
       component: () => import('@/views/chatWithFile/create')
     }, {
-      path: '/fileChat/:type',
+      path: '/fileChat/:sessionId',
       name: 'FileChat',
       meta: { title: 'FileChat', icon: '', showHeader: false },
       component: () => import('@/views/chatWithFile/index')
@@ -75,29 +75,13 @@ export const constantRoutes = [
       name: 'GameChat',
       meta: { title: 'GameChat', icon: '', showHeader: false, },
       // component: () => import('@/views/chatWithFile/index')
+    }, {
+      path: '/smart-language',
+      name: 'SmartLanguage',
+      component: () => import('@/views/smart-language/index'),
+      hidden: true,
+      meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
     }]
-    children: [
-      {
-        path: 'index',
-        name: 'Index',
-        component: () => import('@/views/index/index'),
-        hidden: true,
-        meta: { title: 'Index', icon: 'index', showHeader: true, headerTitle: '你可以尝试这样问我' },
-      },
-      {
-        path: '/chat/:sessionId',
-        name: 'Chat',
-        meta: { title: 'Chat', icon: 'chat' },
-        component: () => import('@/views/chat/index')
-      },
-      {
-        path: '/smart-language',
-        name: 'SmartLanguage',
-        component: () => import('@/views/smart-language/index'),
-        hidden: true,
-        meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
-      }
-    ]
   }
 ]
 

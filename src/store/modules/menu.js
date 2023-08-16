@@ -18,9 +18,12 @@
 //         ],
 //     }
 // ]
-import Vue from 'vue';
-import { getSessionList, getSessionChatRecord, addSession, streamSessionChat } from "@/api/chat";
+// import Vue from 'vue';
+import { getSessionList, getSessionChatRecord, getFileChatBySessionId, addSession, streamSessionChat } from "@/api/chat";
 // import { getMenuAddItem } from '@/config/index'
+import { getCurrentSession, setCurrentSession } from '@/utils/auth'
+import { chatTypeMap } from '@/config/index'
+
 const state = {
     // 存放菜单
     menus: [{
@@ -39,7 +42,7 @@ const state = {
         pageRoute: { name: 'Chat' } // 正常跳转的路由页面
     }, {
         name: '单文件阅读',
-        isNeedSession: false,
+        isNeedSession: true,
         type: 1,
         sessions: [{
             "key": "add",
@@ -94,7 +97,7 @@ const state = {
         activeIcon: 'common/icon_yuyanzhuanjia_sel@2x.png',
         // pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
     }],
-    currentSession: 9600, // 当前选中的会话
+    currentSession: getCurrentSession() || '10737', // 当前选中的会话
 };
 
 const mutations = {
@@ -103,29 +106,45 @@ const mutations = {
         state.menus.forEach(element => {
             element.type === type && (element.sessions = [...element.sessions, ...list])
         });
+        console.log('更新完的menu:::', state.menus)
     },
 
     // 设置当前会话index
     SET_CURRENT_SESSION(state, sessionId) {
         state.currentSession = sessionId;
+        setCurrentSession(sessionId)
     },
 
-    SET_SESSION_MESSAGES(state, { type, sessionId, list }) {
+    // 设置会话的聊天内容
+    SET_SESSION_MESSAGES(state, { page, type, sessionId, list }) {
         let sessions = state.menus.find((session) => session.type === type) || [];
         let session = sessions.sessions && sessions.sessions.find((item) => item.session_id === sessionId) || []
         if (list && list.length) {
-            Vue.$set(session, 'messages', list)
-            // session.messages = list
+            page.$set(session, 'messages', list)
         }
-        debugger
-        console.log(state.menus)
     },
+
+    // 给文件聊天session添加文件对象
+    SET_SESSION_FILE(state, { page, type, sessionId, fileChat }) {
+        let sessions = state.menus.find((session) => session.type === type) || [];
+        let session = sessions.sessions && sessions.sessions.find((item) => item.session_id === sessionId) || []
+        if (fileChat && fileChat.length) {
+            page.$set(session, 'file', fileChat)
+        }
+        // console.log(state.menus)
+    }
 };
 
 const actions = {
+    // 选中菜单项
     selectSession({ commit, dispatch }, { page, menu, session }) {
-
-        dispatch('fetchMessages', { type: menu.type, sessionId: session.session_id });
+        let { type } = menu
+        let { pdfChat, multiPdfChat } = chatTypeMap
+        if (type === pdfChat.chatType || type === multiPdfChat.chatType) {
+            // 文件聊天的话需要请求聊天文件
+            dispatch('getFileChatBySessionId', { page, type, sessionId: session.session_id });
+        }
+        dispatch('fetchMessages', { page, type, sessionId: session.session_id });
 
         let { addSessionRoute = "", pageRoute = "" } = menu || {};
 
@@ -152,35 +171,41 @@ const actions = {
                 if (item.isNeedSession) {
                     const { data } = await getSessionList({ user_id: rootGetters.userId, type: item.type });
                     console.log('请求菜单列表', data.list)
-
-                    switch (item.type) {
-                        case 0:
-                            commit('SET_MENUS', { list: data.list || [], type: item.type });
-                            break;
-                        case 1:
-                            commit('fileChat/SET_MENUS', list);
-                            break;
-                        case 4:
-                            // commit('chat/SET_MENUS', list);
-                            break;
-                    }
-                    // return {
-                    //     ...item,
-                    //     messages: list, // 将消息存储在菜单基本信息中
-                    // };
+                    // debugger
+                    commit('SET_MENUS', { list: data.list || [], type: item.type });
                 }
 
             })
         );
-
-        //   commit("setMenuItems", menuList);
+        if (state.currentSession) {
+            // todo
+        }
     },
-    async fetchMessages({ commit }, { type, sessionId }) {
+
+    // 获取session的对话信息
+    async fetchMessages({ commit }, { page, type, sessionId }) {
         try {
             return new Promise((resolve, reject) => {
                 getSessionChatRecord({ sessionId: sessionId }).then(response => {
                     const { record } = response.data
-                    commit('SET_SESSION_MESSAGES', { type, sessionId, list: record || [] });
+                    commit('SET_SESSION_MESSAGES', { page, type, sessionId, list: record || [] });
+                    resolve()
+                }).catch(error => {
+                    reject(error)
+                })
+            })
+        } catch (error) {
+            console.error('查询聊天对话信息异常，请刷新重试', error);
+        }
+    },
+
+    // 根据sessionid获取会话文件
+    async getFileChatBySessionId({ commit }, { page, type, sessionId }) {
+        try {
+            return new Promise((resolve, reject) => {
+                getFileChatBySessionId({ sessionId: sessionId }).then(response => {
+                    const { fileChat } = response.data
+                    commit('SET_SESSION_FILE', { page, type, sessionId, fileChat: fileChat || [] });
                     resolve()
                 }).catch(error => {
                     reject(error)

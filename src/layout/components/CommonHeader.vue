@@ -4,9 +4,6 @@
       <span class="fixed-title">欢迎使用</span>
 
       <img src="@/assets/common/image_logo@2x.png" class="sidebar-logo" />
-      <span v-if="headerTitle" class="async-page-title"
-        ><span class="comma"> ，</span>{{ headerTitle }}</span
-      >
       <span v-if="title || defaultTitle" class="async-page-title"><span class="comma"> ，</span>{{ title ||
         defaultTitle }}</span>
       <div v-if="secondTitle" class="second-title">{{ secondTitle }}</div>
@@ -28,7 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters(['pageHeaderTitle']),
-    headerTitle() {
+    defaultTitle() {
       const route = this.$route;
       return this.title || this.pageHeaderTitle || (route.meta && route.meta.showHeader && route.meta.headerTitle)
     },
