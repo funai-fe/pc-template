@@ -7,6 +7,10 @@
       <span v-if="headerTitle" class="async-page-title"
         ><span class="comma"> ，</span>{{ headerTitle }}</span
       >
+      <span v-if="title || defaultTitle" class="async-page-title"><span class="comma"> ，</span>{{ title ||
+        defaultTitle }}</span>
+      <div v-if="secondTitle" class="second-title">{{ secondTitle }}</div>
+
     </div>
   </div>
 </template>
@@ -33,6 +37,10 @@ export default {
       const route = this.$route;
       return route.meta && route.meta.showHeader
     },
+    secondTitle() {
+      const route = this.$route;
+      return route.meta && route.meta.secondTitle
+    }
   },
   methods: {
     // async logout() {
@@ -52,23 +60,33 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
+
   & .page-main-title {
     position: relative;
     height: 104px;
     padding-top: 22px;
+
     span {
       font-size: 36px;
       font-family: PingFangSC-Medium, PingFang SC;
       color: #333333;
       line-height: 50px;
+
       &.async-page-title {
         margin-left: 118px;
       }
     }
+
     .sidebar-logo {
       position: absolute;
       top: -5px;
       height: 104px;
+    }
+
+    .second-title {
+      text-align: center;
+      color: #6C727F;
+      margin: 10px;
     }
   }
 }
@@ -76,16 +94,20 @@ export default {
 @media (max-width: 768px) {
   .common-header {
     padding-top: 30px;
+
     & .page-main-title {
       height: 78px;
       padding-top: 12px;
+
       span {
         font-size: 28px;
         line-height: 50px;
+
         &.async-page-title {
           margin-left: 88px;
         }
       }
+
       .sidebar-logo {
         top: -3px;
         height: 80px;
@@ -93,27 +115,34 @@ export default {
     }
   }
 }
+
 @media (max-width: 576px) {
   .common-header {
     padding-top: 5px;
+
     & .page-main-title {
       display: flex;
       flex-direction: column;
       align-items: center;
       height: 60px;
+
       span {
         font-size: 16px;
         line-height: 24px;
+
         &.fixed-title {
           margin-right: 60px;
         }
+
         &.async-page-title {
           margin-left: 0;
+
           & .comma {
             display: none;
           }
         }
       }
+
       .sidebar-logo {
         margin-left: 60px;
         top: -3px;

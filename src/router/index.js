@@ -76,6 +76,28 @@ export const constantRoutes = [
       meta: { title: 'GameChat', icon: '', showHeader: false, },
       // component: () => import('@/views/chatWithFile/index')
     }]
+    children: [
+      {
+        path: 'index',
+        name: 'Index',
+        component: () => import('@/views/index/index'),
+        hidden: true,
+        meta: { title: 'Index', icon: 'index', showHeader: true, headerTitle: '你可以尝试这样问我' },
+      },
+      {
+        path: '/chat/:sessionId',
+        name: 'Chat',
+        meta: { title: 'Chat', icon: 'chat' },
+        component: () => import('@/views/chat/index')
+      },
+      {
+        path: '/smart-language',
+        name: 'SmartLanguage',
+        component: () => import('@/views/smart-language/index'),
+        hidden: true,
+        meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
+      }
+    ]
   }
 ]
 
