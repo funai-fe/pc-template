@@ -1,20 +1,21 @@
 <template>
-  <div class="navbar" v-if="shouldShowHeaderComponent">
+  <div class="common-header" v-if="shouldShowHeaderComponent">
     <div class="page-main-title">
       <span class="fixed-title">欢迎使用</span>
 
       <img src="@/assets/common/image_logo@2x.png" class="sidebar-logo" />
-      <span v-if="title || defaultTitle" class="async-page-title"
-        ><span class="comma"> ，</span>{{ title || defaultTitle}}</span
+      <span v-if="headerTitle" class="async-page-title"
+        ><span class="comma"> ，</span>{{ headerTitle }}</span
       >
     </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
+  name: "CommonHeader",
   props: {
     title: {
       type: String,
@@ -22,9 +23,10 @@ export default {
     },
   },
   computed: {
-    defaultTitle() {
+    ...mapGetters(['pageHeaderTitle']),
+    headerTitle() {
       const route = this.$route;
-      return route.meta && route.meta.showHeader && route.meta.headerTitle
+      return this.title || this.pageHeaderTitle || (route.meta && route.meta.showHeader && route.meta.headerTitle)
     },
     shouldShowHeaderComponent() {
       // 访问当前路由对象的meta信息
@@ -42,7 +44,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.navbar {
+.common-header {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,7 +74,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .navbar {
+  .common-header {
     padding-top: 30px;
     & .page-main-title {
       height: 78px;
@@ -92,7 +94,7 @@ export default {
   }
 }
 @media (max-width: 576px) {
-  .navbar {
+  .common-header {
     padding-top: 5px;
     & .page-main-title {
       display: flex;

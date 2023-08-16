@@ -1,3 +1,34 @@
+const sessionChatRecordMap = {
+  '9600': [],
+  '10737': [
+    {
+      "role": "user",
+      "content": "2",
+      "session_chat_id": 103878,
+      "session_id": 10737,
+      "token_num": 10,
+      "create_time": "2023-07-29 17:29:45",
+      "update_time": "2023-07-29 17:29:45",
+      "is_deleted": 0,
+      "chat_type": 0,
+      "model_name": "gpt-3.5-turbo-0613"
+    },
+    {
+      "role": "assistant",
+      "content": "非常抱歉，我不能提供关于FunAI团队开发历史的详细信息。我只是一个大语言模型，被设计用来回答和解决各种问题。如果您有其他问题，我会尽力回答。",
+      "session_chat_id": 103879,
+      "session_id": 10737,
+      "token_num": 80,
+      "create_time": "2023-07-29 17:29:45",
+      "update_time": "2023-07-29 17:29:45",
+      "is_deleted": 0,
+      "chat_type": 0,
+      "model_name": "gpt-3.5-turbo-0613"
+    }
+  ],
+  '9600': []
+}
+
 export default [
   // 新增聊天
   {
@@ -31,7 +62,7 @@ export default [
   },
   // 获取对话信息
   {
-    url: '/chat/getSessionChatRecord/*',
+    url: '/chat/getSessionChatRecord\/*',
     type: 'get',
     response: config => {
       const { sessionId } = config.query
@@ -40,39 +71,14 @@ export default [
       if (!sessionId) {
         return {
           code: 10002,
-          message: '缺少sessionId参数'
+          message: '【get请求】: 缺少sessionId参数'
         }
       }
       return {
         "code": 20000,
         "message": "成功",
         "data": {
-          "record": [
-            {
-              "role": "user",
-              "content": "2",
-              "session_chat_id": 103878,
-              "session_id": 10737,
-              "token_num": 10,
-              "create_time": "2023-07-29 17:29:45",
-              "update_time": "2023-07-29 17:29:45",
-              "is_deleted": 0,
-              "chat_type": 0,
-              "model_name": "gpt-3.5-turbo-0613"
-            },
-            {
-              "role": "assistant",
-              "content": "非常抱歉，我不能提供关于FunAI团队开发历史的详细信息。我只是一个大语言模型，被设计用来回答和解决各种问题。如果您有其他问题，我会尽力回答。",
-              "session_chat_id": 103879,
-              "session_id": 10737,
-              "token_num": 80,
-              "create_time": "2023-07-29 17:29:45",
-              "update_time": "2023-07-29 17:29:45",
-              "is_deleted": 0,
-              "chat_type": 0,
-              "model_name": "gpt-3.5-turbo-0613"
-            }
-          ]
+          "record": sessionChatRecordMap[sessionId]
         }
       }
     }
@@ -80,7 +86,7 @@ export default [
 
   // 获取对话列表
   {
-    url: '/chat/getSessionList/\.*',
+    url: '/chat/getSessionList\.*',
     type: 'get',
     response: config => {
       return {

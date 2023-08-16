@@ -29,13 +29,8 @@
     }
 
     .el-scrollbar {
-      height: 100%;
-    }
-
-    &.has-logo {
-      .el-scrollbar {
-        height: calc(100% - 211px);
-      }
+      // height: 100%;
+      height: calc(100% - 190px);
     }
 
     .is-horizontal {
@@ -257,7 +252,7 @@
   background-color: #f9fafb;
   border-bottom: none;
   height: 42px;
-  font-size: 18px;
+  font-size: 16px;
   font-family: PingFangSC-Medium, PingFang SC;
   color: #6c727f;
 
@@ -275,7 +270,7 @@
   border-bottom: none;
 
   .el-collapse-item__content {
-    padding-bottom: 20px;
+    padding-bottom: 5px;
 
     .add-item {
       border: 1px solid #000B58;
@@ -362,14 +357,14 @@
 }
 
 .sidebar-nav-container {
-  height: 142px;
+  height: 120px;
   display: flex;
   flex-direction: column;
-  position: absolute;
-  bottom: 0;
+  // position: absolute;
+  // bottom: 0;
   width: 100%;
   background: #f9fafb;
-  padding: 16px 30px;
+  padding: 7px 30px;
   overflow: hidden;
   border-top: 1px solid #e5e7eb;
 

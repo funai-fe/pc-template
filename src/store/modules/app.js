@@ -3,10 +3,12 @@ import Cookies from 'js-cookie'
 const state = {
   sidebar: {
     opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
-    withoutAnimation: false
+    withoutAnimation: false,
+    pageHeaderTitle: ''
   },
   device: 'desktop',
-  loginDialog: null // 弹窗实例
+  loginDialog: null, // 弹窗实例
+  // currentSession: 10737, // 当前选中的会话
 }
 
 const mutations = {
@@ -35,6 +37,10 @@ const mutations = {
   },
   HIDE_LOGIN_DIALOG: (state, cb) => {
     state.loginDialog.handleClose()
+  },
+  // 设置页面标题
+  SET_PAGE_HEADER_TITLE: (state, pageHeaderTitle) => {
+    state.pageHeaderTitle = pageHeaderTitle
   }
 }
 

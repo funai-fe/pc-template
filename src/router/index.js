@@ -49,12 +49,32 @@ export const constantRoutes = [
       name: 'Index',
       component: () => import('@/views/index/index'),
       hidden: true,
-      meta: { title: 'Index', icon: 'index', showHeader: true, headerTitle: '你可以尝试这样问我' }
+      meta: { title: 'Index', icon: '', showHeader: true, headerTitle: '你可以尝试这样问我' }
     }, {
       path: '/chat/:sessionId',
       name: 'Chat',
-      meta: { title: 'Chat', icon: 'chat' },
+      meta: { title: 'Chat', icon: '' },
       component: () => import('@/views/chat/index')
+    }, {
+      path: '/chatWithFile/:type',
+      name: 'ChatWithFile',
+      meta: { title: 'ChatWithFile', icon: '', showHeader: true, headerTitle: '与文件聊天' },
+      component: () => import('@/views/chatWithFile/create')
+    }, {
+      path: '/fileChat/:type',
+      name: 'FileChat',
+      meta: { title: 'FileChat', icon: '', showHeader: false },
+      component: () => import('@/views/chatWithFile/index')
+    }, {
+      path: '/chatWithGame',
+      name: 'ChatWithGame',
+      meta: { title: 'ChatWithGame', icon: '', showHeader: true, headerTitle: '选择您的冒险游戏' },
+      // component: () => import('@/views/chatWithFile/index')
+    }, {
+      path: '/gameChat',
+      name: 'GameChat',
+      meta: { title: 'GameChat', icon: '', showHeader: false, },
+      // component: () => import('@/views/chatWithFile/index')
     }]
   }
 ]
@@ -63,7 +83,6 @@ export const constantRoutes = [
  * asyncRoutes 权限路由（暂时不用）
  */
 export const asyncRoutes = [
-
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

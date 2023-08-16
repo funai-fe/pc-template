@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-messages">
+  <div class="chat-messages" :class="{ 'mini-size': isMiniSize }">
     <div
       class="message-content"
       v-for="message in messages"
@@ -54,7 +54,10 @@ export default {
     messages: {
       type: Array,
       default: () => [],
-      required: true,
+    },
+    isMiniSize: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -65,6 +68,44 @@ export default {
   
 <style lang="scss" scoped>
 $headMargin: 16px;
+@mixin message-mini {
+  .head-icon {
+    margin-right: 8px!important;
+    align-self: flex-start;
+    img {
+      width: 30px!important;
+      height: 30px!important;
+    }
+  }
+  .chat-content {
+    .user-info {
+      span {
+        font-size: 12px!important;
+      }
+      .name {
+        margin-right: 5px!important;
+      }
+    }
+    .chat-text {
+      padding: 10px!important;
+      .text {
+        line-height: 20px!important;
+      }
+    }
+    .tools {
+      padding-top: 10px !important;
+      .tools-item {
+        margin-right: 10px !important;
+        line-height: 15px !important;
+      }
+    }
+  }
+}
+@mixin user-message-mini {
+  .head-icon {
+    margin-left: 8px!important;
+  }
+}
 /* 添加样式以美化消息列表 */
 .chat-messages {
   flex: 1;
@@ -78,71 +119,102 @@ $headMargin: 16px;
     display: flex;
     flex-direction: column;
     max-width: 70rem;
-    // width: calc(100% - 70px);
+    padding: 10px 0;
     width: 90%;
-  }
-}
 
-.message {
-  display: flex;
-  max-width: 80%;
-  margin-bottom: 10px;
-  // padding: 8px;
-  border-radius: 8px;
-
-  .head-icon {
-    margin-right: $headMargin;
-    align-self: flex-start;
-    img {
-      border-radius: 50%;
-      width: 56px;
-      height: 56px;
-      background: #ccc;
-    }
-  }
-  .chat-content {
-    display: flex;
-    flex-direction: column;
-    .user-info {
+    .message {
       display: flex;
-      align-items: center;
-      font-size: 14px;
-      // font-family: PingFangSC-Regular, PingFang SC;
-      color: #6c727f;
-      margin-bottom: 8px;
-      line-height: 20px;
-      .name {
-        margin-right: 10px;
-      }
-    }
-    .chat-text {
-      padding: 20px;
-      background: #f9fafb;
+      max-width: 80%;
+      margin-bottom: 10px;
       border-radius: 8px;
-      .text {
-        font-size: 14px;
-        // font-family: PingFangSC-Medium, PingFang SC;
-        color: #333333;
-        line-height: 25px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #e5e7eb;
+
+      .head-icon {
+        margin-right: $headMargin;
+        align-self: flex-start;
+        img {
+          border-radius: 50%;
+          width: 56px;
+          height: 56px;
+          background: #ccc;
+        }
       }
-      .tools {
+      .chat-content {
         display: flex;
-        padding-top: 20px;
-        .tools-item {
+        flex-direction: column;
+        align-items: flex-start;
+        .user-info {
           display: flex;
           align-items: center;
+          font-size: 14px;
+          // font-family: PingFangSC-Regular, PingFang SC;
           color: #6c727f;
-          margin-right: 20px;
+          margin-bottom: 8px;
           line-height: 20px;
-          cursor: pointer;
-          span {
-            font-size: 12px;
+          .name {
+            margin-right: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 60%;
           }
-          img {
-            width: 16px;
-            height: 16px;
+        }
+        .chat-text {
+          padding: 20px;
+          background: #f9fafb;
+          border-radius: 8px;
+          .text {
+            font-size: 14px;
+            word-break: break-word;
+            // font-family: PingFangSC-Medium, PingFang SC;
+            color: #333333;
+            line-height: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+          }
+          .tools {
+            display: flex;
+            padding-top: 20px;
+            .tools-item {
+              display: flex;
+              align-items: center;
+              color: #6c727f;
+              margin-right: 20px;
+              line-height: 20px;
+              cursor: pointer;
+              span {
+                font-size: 12px;
+              }
+              img {
+                width: 16px;
+                height: 16px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .user-message {
+      flex-direction: row-reverse;
+      align-self: flex-end;
+
+      .head-icon {
+        margin-left: $headMargin;
+        margin-right: 0 !important;
+      }
+
+      .chat-content {
+        align-items: flex-end;
+        .user-info {
+          justify-content: flex-end;
+        }
+        .chat-text {
+          background: linear-gradient(138deg, #5b80f7 0%, #8376f7 100%);
+          .text {
+            color: #ffffff;
+            padding-bottom: 0;
+            line-height: 20px;
+            border-bottom: none;
           }
         }
       }
@@ -150,64 +222,29 @@ $headMargin: 16px;
   }
 }
 
-.user-message {
-  flex-direction: row-reverse;
-  align-self: flex-end;
-
-  .head-icon {
-    margin-left: $headMargin;
-    margin-right: 0 !important;
-  }
-
-  .chat-content .chat-text {
-    background: linear-gradient(138deg, #5b80f7 0%, #8376f7 100%);
-    .text {
-      color: #ffffff;
-      padding-bottom: 0;
-      line-height: 20px;
-      border-bottom: none;
-    }
-  }
+// 样式mini版，主要是兼容文件聊天时候聊天面板较窄
+.mini-size {
+  @include message-mini;
+  @include user-message-mini;
 }
 
 @media (max-width: 768px) {
+  @include message-mini;
+  @include user-message-mini;
+}
+
+@media (max-width: 576px) {
   .message {
-    .head-icon {
-      margin-right: 8px;
-      align-self: flex-start;
-      img {
-        width: 30px;
-        height: 30px;
-      }
-    }
     .chat-content {
       .user-info {
-        span {
-          font-size: 12px;
-        }
+        width: 200px;
         .name {
-          margin-right: 5px;
+          max-width: 100%;
+        }
+        .time {
+          display: none;
         }
       }
-      .chat-text {
-        padding: 10px;
-        .text {
-          line-height: 20px;
-        }
-      }
-      .tools {
-        padding-top: 10px !important;
-        .tools-item {
-          margin-right: 10px !important;
-          line-height: 15px !important;
-        }
-      }
-    }
-  }
-
-  .user-message {
-    .head-icon {
-      margin-left: 8px;
     }
   }
 }

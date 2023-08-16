@@ -1,77 +1,72 @@
 <template>
   <div class="chatgpt-page">
-    <!-- <ChatHeader /> -->
-    <ChatMessages :messages="sessionMessages" />
-    <ChatInput class="chat-input" @newMessage="addMessage" />
+    <ChatMessages :messages="sessionMessages" :isMiniSize="isMiniSize"/>
+    <ChatInput class="chat-input" @newMessage="addMessage" :isMiniSize="isMiniSize"/>
   </div>
 </template>
     
 <script>
 import { mapGetters, mapActions } from "vuex";
-//   import ChatHeader from "@/components/ChatHeader";
 import ChatMessages from "@/components/ChatMessages/index.vue";
 import ChatInput from "@/components/ChatInput/index.vue";
 
 export default {
-  // props: {
-  //   sessionId: {
-  //     type: [String, Number],
-  //     required: true,
-  //   },
-  // },
+  props: {
+    isMiniSize: {
+      type: Boolean,
+      default: false,
+    },
+    type: {
+      type: Number,
+      default: -1
+    }
+  },
   components: {
-    //   ChatHeader,
     ChatMessages,
     ChatInput,
   },
   data() {
     return {};
   },
-  watch: {
-    "sessions.messages"(sessions) {
-      console.log("AAAA", sessions);
-      // if (newSessionId) {
-      //   this.fetchMessages(newSessionId);
-      // }
-    },
-  },
   computed: {
-    ...mapGetters(["sessions", "currentSession"]),
+    ...mapGetters(["menus", "currentSession"]),
     sessionMessages() {
-      console.log(this.sessions, this.currentSession);
-      // 根据当前的 sessionId 获取对应会话的消息列表
-      const session = this.sessions.find((session) => {
-        // console.log(session, this.currentSession)
-        return session.session_id === this.currentSession;
-      });
-      // console.log(session.messages, this.currentSession);
-
+      console.log(this.menus, this.currentSession, this.type);
+      // debugger
+      const sessions = this.menus.find((session) => session.type === this.type) || [];
+      const session = sessions.sessions && sessions.sessions.find((item) => item.session_id === this.currentSession)
       return session ? session.messages : [];
     },
   },
+  watch: {
+    // currentSession(newSessionId) {
+    //   if (newSessionId) {
+    //     this.$nextTick(() => {
+
+    //     })
+    //   }
+    // },
+  },
   methods: {
-    ...mapActions("chat", [
-      "addMessageToSession",
-      "fetchSessions",
-      "fetchMessages",
-    ]),
+    // ...mapActions("chat", [
+      // "addMessageToSession",
+      // "fetchSessions",
+      // "fetchMessages",
+    // ]),
     addMessage(message) {
       if (this.currentSession) {
-        this.addMessageToSession({ sessionId: this.currentSession, message });
+        // this.addMessageToSession({ sessionId: this.currentSession, message });
       }
     },
   },
   async created() {
-    console.log(this.currentSession, "qqqqqq");
-    if (this.currentSession) {
-      await this.fetchSessions({ user_id: this.userId, type: 0 });
-      await this.fetchMessages(this.currentSession);
-    }
+    // console.log(this.type)
+    // if (this.currentSession) {
+    //   await this.fetchSessions({ user_id: this.userId, type: 0 });
+    //   await this.fetchMessages(this.currentSession);
+    // }
   },
   mounted() {
-    // setTimeout(() => {
-    console.log(this.sessionMessages, "pppppppp");
-    // }, 5000);
   },
 };
 </script>

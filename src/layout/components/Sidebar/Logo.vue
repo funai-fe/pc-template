@@ -2,6 +2,7 @@
   <div class="sidebar-logo-container" :class="{ collapse: collapse }">
     <transition name="sidebarLogoFade">
       <div
+        key="collapse"
         v-if="collapse"
         class="sidebar-logo-link"
       >

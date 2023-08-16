@@ -2,9 +2,11 @@ import Mock from 'mockjs'
 import { param2Obj } from '../src/utils'
 
 import user from './user'
+import chat from './chat'
 
 const mocks = [
-  ...user
+  ...user,
+  ...chat
 ]
 
 // for front mock

@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+ 
 // 新增聊天
 export function addSession(data = {}) {
     return request({
@@ -21,16 +22,20 @@ export function getSessionList(params) {
     return request({
         url: `/chat/getSessionList/${params.user_id}/${params.type}`,
         method: 'get',
-        // params: params
+        params: params
     })
 }
 
 // 获取聊天信息
 export function getSessionChatRecord(params) {
     return request({
-        url: `/chat/getSessionChatRecord/${params.sessionId}`,
+        // 生产用这个
+        // url: `/chat/getSessionChatRecord/${params.sessionId}`,
+
+        // dev用这个url
+        url: `/chat/getSessionChatRecord/${params.sessionId}?sessionId=${params.sessionId}`,
         method: 'get',
-        // params: params
+        params,
     })
 }
 

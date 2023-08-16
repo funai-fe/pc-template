@@ -44,6 +44,7 @@ router.beforeEach(async(to, from, next) => {
 })
 
 router.afterEach(() => {
+  store.commit('app/SET_PAGE_HEADER_TITLE', '')
   // finish progress bar
   NProgress.done()
 })

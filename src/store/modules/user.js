@@ -44,7 +44,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { loginAcct, password, loginType } = userInfo
     return new Promise((resolve, reject) => {
-      login({ loginAcct: loginAcct.trim(), password: password, loginType: loginType }).then(response => {
+      login({ loginAcct: loginAcct.trim(), password: password, loginType: loginType }).then(response => {      
         const { data } = response
         commit('SET_TOKEN', data.token)
         commit('SET_USERID', data.userId)

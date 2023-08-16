@@ -4,9 +4,6 @@
     <sidebar class="sidebar-container" />
     <div class="main-container">
       <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
-      </div>
       <app-main />
     </div>
   </div>
@@ -14,14 +11,13 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Navbar, Sidebar, AppMain } from './components'
+import { Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import Hamburger from '@/components/Hamburger'
 
 export default {
   name: 'Layout',
   components: {
-    Navbar,
     Sidebar,
     AppMain,
     Hamburger
@@ -101,22 +97,5 @@ export default {
     &:hover {
       background: rgba(0, 0, 0, .025)
     }
-  }
-
-  .fixed-header {
-    position: fixed;
-    top: 0;
-    right: 0;
-    z-index: 9;
-    width: calc(100% - #{$sideBarWidth});
-    transition: width 0.28s;
-  }
-
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
-  }
-
-  .mobile .fixed-header {
-    width: 100%;
   }
 </style>
