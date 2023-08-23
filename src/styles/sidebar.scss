@@ -17,7 +17,7 @@
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1001;
+    z-index: 999;
     overflow: hidden;
 
     .scrollbar-wrapper {
@@ -364,7 +364,7 @@
   // bottom: 0;
   width: 100%;
   background: #f9fafb;
-  padding: 7px 30px;
+  padding: 7px 0;
   overflow: hidden;
   border-top: 1px solid #e5e7eb;
 
@@ -373,6 +373,16 @@
     align-items: center;
     height: 100%;
     width: 100%;
+    padding: 0 30px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: hsl(220, 6%, 90%);
+
+      .sidebar-title {
+        color: #000B58;
+      }
+    }
 
     &.user-dropdown {
       display: flex;
@@ -406,6 +416,11 @@
       }
     }
   }
+}
+
+.dropdown-item .el-dropdown-menu__item:focus, .dropdown-item .el-dropdown-menu__item:not(.is-disabled):hover {
+    background-color: hsl(220, 6%, 90%)!important;
+    color: #000B58!important;
 }
 
 // 菜单底部——————end

@@ -58,7 +58,7 @@ service.interceptors.response.use(
         store.dispatch('user/resetToken').then(() => {
           // location.reload()
             setTimeout(() => {
-              store.dispatch('app/showLoginDalog', () => {})
+              store.dispatch('app/showLoginDalog', { showClose: false })
             }, 800)
         })
       }

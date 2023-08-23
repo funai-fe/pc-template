@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import Cookies from 'js-cookie'
 
 const state = {
@@ -8,7 +9,6 @@ const state = {
   },
   device: 'desktop',
   loginDialog: null, // 弹窗实例
-  // currentSession: 10737, // 当前选中的会话
 }
 
 const mutations = {
@@ -32,10 +32,10 @@ const mutations = {
   SET_LOGIN_DIALOG: (state, dialog) => {
     state.loginDialog = dialog
   },
-  SHOW_LOGIN_DIALOG: (state, cb) => {
-    state.loginDialog.handleOpen(cb)
+  SHOW_LOGIN_DIALOG: (state, opt) => {
+    state.loginDialog.handleOpen(opt)
   },
-  HIDE_LOGIN_DIALOG: (state, cb) => {
+  HIDE_LOGIN_DIALOG: (state) => {
     state.loginDialog.handleClose()
   },
   // 设置页面标题
@@ -57,8 +57,8 @@ const actions = {
   setLoginDialog({ commit }, dialog) {
     commit('SET_LOGIN_DIALOG', dialog)
   },
-  showLoginDalog({ commit }, cb) {
-    commit('SHOW_LOGIN_DIALOG', cb)
+  showLoginDalog({ commit }, opt) {
+    commit('SHOW_LOGIN_DIALOG', opt)
   },
   showHideDalog({ commit }) {
     commit('HIDE_LOGIN_DIALOG')

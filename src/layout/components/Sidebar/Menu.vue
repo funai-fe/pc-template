@@ -22,8 +22,8 @@
             <div
               :class="[
                 'menu-item',
-                session.key === 'add' ? 'add-item' : '',
-                session.session_id === currentSession && session.key !== 'add'
+                session.key == 'add' ? 'add-item' : '',
+                session.session_id == currentSession && session.key != 'add'
                   ? 'active'
                   : '',
               ]"
@@ -70,6 +70,7 @@
 
 <script>
 import { mapGetters, mapMutations, mapActions } from "vuex";
+import { getCurrentType } from '@/utils/auth'
 
 export default {
   name: "Menu",
@@ -93,21 +94,21 @@ export default {
 
   //   next();
   // },
-  watch: {
-    "$route.path"(newPath) {
-      // this.updateMenuHighlight(newPath);
-      console.log("路由变化啦～～～～～");
-    },
-  },
+  // watch: {
+  //   "$route.path"(newPath) {
+  //     // this.updateMenuHighlight(newPath);
+  //     console.log("路由变化啦～～～～～");
+  //   },
+  // },
   computed: {
     ...mapGetters(["menus", "currentSession"]),
   },
   methods: {
     getImagePath(path) {
-      return require("@/assets/" + path); // 假设图片在 assets 目录下
+      return path ? require("@/assets/" + path) : ''; // 假设图片在 assets 目录下
     },
     // ...mapMutations("menu", ['SET_CURRENT_SESSION']),
-    ...mapActions("menu", ["selectSession", "fetchSessions"]),
+    ...mapActions("menu", ["selectSession", "fetchSessions", "fetchMessages"]),
     selectSessionItem(menu, session) {
       if (session.session_id === this.currentSession) {
         return;
@@ -122,8 +123,18 @@ export default {
   },
   async created() {
     // if (this.currentSession) {
-    await this.fetchSessions();
-    
+    await this.fetchSessions({
+      page: this
+    });
+
+    // if (this.currentSession) {
+    //   this.fetchMessages({
+    //     page: this,
+    //     type: getCurrentType(),
+    //     sessionId: this.currentSession
+    //   })
+    // }
+
     // }
   },
 };

@@ -22,7 +22,7 @@ export function logout(params) {
   return request({
     url: `/user/logout/${params}`,
     method: 'get',
-    params: params
+    params
   })
 }
 

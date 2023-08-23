@@ -9,6 +9,7 @@ import chat from './modules/chat'
 import fileChat from './modules/fileChat'
 import gameChat from './modules/gameChat'
 import menu from './modules/menu'
+import customerService from './modules/customerService'
 
 Vue.use(Vuex)
 
@@ -21,7 +22,8 @@ const store = new Vuex.Store({
     menu,
     chat,
     fileChat,
-    gameChat
+    gameChat,
+    customerService
   },
   getters
 })

@@ -20,10 +20,17 @@ export default {
   },
   computed: {
     ...mapGetters(["currentSession"]),
+    // chatType() {
+    //   return chatTypeMap['normalChat'].chatType || this.currentType
+    // }
   },
   methods: {
   },
-  async created() {
+  created() {
+    // setTimeout(()=>{
+      // console.log(this.chatType)
+    // }, 1000)
+    
   },
 };
 </script>

@@ -33,7 +33,7 @@ export function parseTime(time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value ] }
+    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -93,12 +93,12 @@ export function param2Obj(url) {
   }
   return JSON.parse(
     '{"' +
-      decodeURIComponent(search)
-        .replace(/"/g, '\\"')
-        .replace(/&/g, '","')
-        .replace(/=/g, '":"')
-        .replace(/\+/g, ' ') +
-      '"}'
+    decodeURIComponent(search)
+      .replace(/"/g, '\\"')
+      .replace(/&/g, '","')
+      .replace(/=/g, '":"')
+      .replace(/\+/g, ' ') +
+    '"}'
   )
 }
 
@@ -109,4 +109,30 @@ export function param2Obj(url) {
  */
 export function isPDFFile(url) {
   return /\.pdf$/i.test(url);
+}
+
+/**
+ * localstorage 设置 获取 删除
+ */
+export const myStorage = {
+  //存储
+  set(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  //取出数据
+  get(key) {
+    try {
+      const value = localStorage.getItem(key);
+      if (value === null || value === undefined || value === "") {
+        return null;
+      }
+      return JSON.parse(localStorage.getItem(key));
+    } catch (err) {
+      return null
+    }
+  },
+  // 删除数据
+  remove(key) {
+    localStorage.removeItem(key);
+  }
 }

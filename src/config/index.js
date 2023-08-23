@@ -40,24 +40,28 @@
 // 聊天类型相关配置
 export const chatTypeMap = {
     // ✨通用聊天✨
-    normalChat: {
+    'normalChat': {
         chatType: 0 
     },
     // ✅AI文件聊天✅
-    pdfChat: {
+    'pdfChat': {
         chatType: 1 
     },
     // 👾游戏聊天👾
-    gameChat: {
+    'gameChat': {
         chatType: 2 
     },
     // 👴超级AI助手聊天👴
-    expertChat: {
+    'expertChat': {
         chatType: 3 
     },
     // 🤖AI多文件聊天🤖
-    multiPdfChat: {
+    'multiPdfChat': {
         chatType: 4 
+    },
+    // 客服聊天
+    'customerChat': {
+        chatType: 5
     },
 }
 

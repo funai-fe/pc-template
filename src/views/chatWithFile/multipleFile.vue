@@ -1,6 +1,6 @@
 <template>
   <div class="chatgpt-container">
-    <FileViewer :fileUrl="fileUrl" width="45%" class="file-viewer" />
+    <FileViewer :fileUrl="fileUrl" width="40%" class="file-viewer" />
     <ChatSession
       :type="chatType"
       class="chat-session"
@@ -23,7 +23,7 @@ export default {
   },
   data() {
     return {
-      chatType: chatTypeMap["pdfChat"].chatType,
+      chatType: chatTypeMap["multiPdfChat"].chatType,
     };
   },
   computed: {
@@ -31,16 +31,22 @@ export default {
     fileUrl() {
       const sessions =
         this.menus.find((session) => session.type === this.chatType) || [];
-      const session =
+        // console.log('uuuu', sessions)
+      
+        const session =
         sessions.sessions &&
         sessions.sessions.find(
           (item) => item.session_id === this.currentSession
         );
+        // console.log('uuuu', session)
+        // debugger
       return session && session.file ? session.file[0].fileUrl : "";
     },
   },
   methods: {},
-  async created() {},
+  async created() {
+    // console.log(this.chatType, 'lklklklklklllkl')
+  },
 };
 </script>
 <style lang="scss" scoped>

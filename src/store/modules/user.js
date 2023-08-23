@@ -1,6 +1,7 @@
 import { login, logout } from '@/api/user'
 import { getToken, getUserName, getUserId, getUserLevel, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import { Message } from 'element-ui'
 
 const getDefaultState = () => {
   return {
@@ -58,40 +59,18 @@ const actions = {
     })
   },
 
-  // get user info
-  // getInfo({ commit, state }) {
-  //   return new Promise((resolve, reject) => {
-  //     getInfo(state.token).then(response => {
-  //       const { data } = response
-
-  //       if (!data) {
-  //         reject('Verification failed, please Login again.')
-  //       }
-
-  //       const { roles, userId, name, avatar } = data
-  //       if (!roles || roles.length <= 0) {
-  //         reject('getInfo: roles must be a non-null array!')
-  //       }
-
-  //       commit('SET_ROLES', roles)
-  //       commit('SET_NAME', name)
-  //       commit('SET_AVATAR', avatar)
-  //       resolve(data)
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-
   // user logout
-  logout({ commit, state }) {
+  logOut({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout(state.userId).then(() => {
         removeToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
+        Message.success('退出成功！')
+        dispatch('app/showLoginDalog', { showClose: false }, { root: true })
         resolve()
       }).catch(error => {
+        this.$message.error(error.message || '退出异常，请稍后再试');
         reject(error)
       })
     })

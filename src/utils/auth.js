@@ -1,10 +1,12 @@
 import Cookies from 'js-cookie'
+import { myStorage }from '@/utils/index'
 
 const TokenKey = 'token'
 const UserIdKey = 'userId'
 const UserNameKey = 'userName'
 const UserLevelKey = 'userLevel'
 const CurrentSessionKey = 'currentSession'
+const typeKey = 'type'
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -34,11 +36,16 @@ export function removeToken() {
 }
 
 export function getCurrentSession() {
-  return Cookies.get(CurrentSessionKey)
+  return myStorage.get(CurrentSessionKey)
 }
-export function setCurrentSession(currentSession) {
-  Cookies.set(CurrentSessionKey, currentSession)
+export function getCurrentType() {
+  return myStorage.get(typeKey)
+}
+export function setCurrentSession(data) {
+  myStorage.set(CurrentSessionKey, data.currentSession)
+  myStorage.set(typeKey, data.type)
 }
 export function removeCurrentSession() {
-  Cookies.remove(CurrentSessionKey)
+  myStorage.remove(CurrentSessionKey)
+  myStorage.remove(typeKey)
 }

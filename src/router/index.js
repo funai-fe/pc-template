@@ -35,12 +35,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
     path: '/',
     component: Layout,
     redirect: '/index',
@@ -50,39 +44,114 @@ export const constantRoutes = [
       component: () => import('@/views/index/index'),
       hidden: true,
       meta: { title: 'Index', icon: '', showHeader: true, headerTitle: '你可以尝试这样问我' }
-    }, {
-      path: '/chat/:sessionId',
-      name: 'Chat',
-      meta: { title: 'Chat', icon: '' },
-      component: () => import('@/views/chat/index')
-    }, {
-      path: '/chatWithFile/:type',
-      name: 'ChatWithFile',
-      meta: { title: 'ChatWithFile', icon: '', showHeader: true, headerTitle: '与文件聊天' },
-      component: () => import('@/views/chatWithFile/create')
-    }, {
-      path: '/fileChat/:sessionId',
-      name: 'FileChat',
-      meta: { title: 'FileChat', icon: '', showHeader: false },
-      component: () => import('@/views/chatWithFile/index')
-    }, {
-      path: '/chatWithGame',
-      name: 'ChatWithGame',
-      meta: { title: 'ChatWithGame', icon: '', showHeader: true, headerTitle: '选择您的冒险游戏' },
-      // component: () => import('@/views/chatWithFile/index')
-    }, {
-      path: '/gameChat',
-      name: 'GameChat',
-      meta: { title: 'GameChat', icon: '', showHeader: false, },
-      // component: () => import('@/views/chatWithFile/index')
-    }, {
-      path: '/smart-language',
-      name: 'SmartLanguage',
-      component: () => import('@/views/smart-language/index'),
-      hidden: true,
-      meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
     }]
-  }
+  },
+
+  {
+    path: '/chat',
+    component: Layout,
+    children: [
+      {
+        path: '/chat/:sessionId',
+        name: 'Chat',
+        component: () => import('@/views/chat/index'),
+        meta: { title: 'Chat', icon: '' }
+      }
+    ]
+  },
+  {
+    path: '/chatWithFile',
+    component: Layout,
+    children: [
+      {
+        path: '/chatWithFile/:type',
+        name: 'ChatWithFile',
+        component: () => import('@/views/chatWithFile/create'),
+        meta: { title: 'ChatWithFile', icon: '', showHeader: true, headerTitle: '与文件聊天' },
+      }
+    ]
+  },
+  {
+    path: '/singleFileChat',
+    component: Layout,
+    children: [
+      {
+        path: '/singleFileChat/:sessionId',
+        name: 'SingleFileChat',
+        meta: { title: 'SingleFileChat', icon: '', showHeader: false },
+        component: () => import('@/views/chatWithFile/singleFile')
+      }
+    ]
+  },
+  {
+    path: '/multipleFileChat',
+    component: Layout,
+    children: [
+      {
+        path: '/multipleFileChat/:sessionId',
+        name: 'MultipleFileChat',
+        meta: { title: 'MultipleFileChat', icon: '', showHeader: false },
+        component: () => import('@/views/chatWithFile/multipleFile')
+      }
+    ]
+  },
+
+  {
+    path: '/chatWithGame',
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'ChatWithGame',
+        meta: { title: 'ChatWithGame', icon: '', showHeader: true, headerTitle: '选择您的冒险游戏' },
+        // component: () => import('@/views/chatWithFile/singleFile')
+      }
+    ]
+  },
+
+  {
+    path: '/gameChat',
+    component: Layout,
+    children: [
+      {
+        path: '/gameChat/:sessionId',
+        name: 'GameChat',
+        meta: { title: 'GameChat', icon: '', showHeader: false },
+        // component: () => import('@/views/chatWithFile/singleFile')
+      }
+    ]
+  },
+  {
+    path: '/smart-language',
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'SmartLanguage',
+        component: () => import('@/views/smart-language/index'),
+        // hidden: true,
+        meta: { title: 'SmartLanguage', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
+      }
+    ]
+  },
+  {
+    path: '/customerService',
+    component: Layout,
+    children: [
+      {
+        path: '/',
+        name: 'CustomerService',
+        component: () => import('@/views/customerService/index'),
+        // hidden: true,
+        meta: { keepAlive: true, title: 'CustomerService', icon: 'index', showHeader: false }
+      }
+    ]
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
 ]
 
 /**

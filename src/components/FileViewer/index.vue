@@ -4,8 +4,8 @@
       <iframe :src="source" width="100%" height="100%"></iframe>
     </div>
 
-    <div class="file-viewer-wrap" :stype="{ height: height }" v-else>
-      <iframe class="microsoft-office" :src="source" frameborder="0"></iframe>
+    <div class="file-viewer-wrap" :style="{ height: height }" v-else>
+      <iframe class="microsoft-office" width="100%" height="100%" :src="source" frameborder="0"></iframe>
     </div>
   </div>
 </template>
@@ -44,6 +44,7 @@ export default {
   },
   watch: {
     fileUrl(url) {
+      // debugger
       this.source = this.isPDF
         ? `${this.fileUrl}`
         : `${G_MICROSOFT_OFFICE_PRE_LINK}${this.fileUrl}`;
@@ -86,32 +87,6 @@ export default {
       background-color: #f2f2f2;
       border-radius: 5px;
     }
-  }
-
-  .pagenum {
-    margin-left: 20px;
-    text-align: left;
-    z-index: 1000;
-  }
-
-  .showPage {
-    margin-left: auto;
-  }
-
-  .btn {
-    display: flex;
-    padding-left: 45%;
-    position: absolute;
-    z-index: 999;
-  }
-
-  //   .enlarge {
-  //     width: 50px;
-  //     height: 50px;
-  //   }
-
-  .zoomout {
-    margin-left: 10px;
   }
 }
 </style>

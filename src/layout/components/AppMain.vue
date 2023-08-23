@@ -11,8 +11,7 @@
         </div>
         <keep-alive>
           <router-view :key="key" />
-        </keep-alive>
-        
+        </keep-alive> 
       </div>
     </transition>
   </section>

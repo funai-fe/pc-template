@@ -16,6 +16,10 @@ import ChatInput from "@/components/ChatInput/index.vue";
 
 export default {
   props: {
+    sessionId: {
+      type: Number,
+      require: true
+    },
     isMiniSize: {
       type: Boolean,
       default: false,
@@ -30,30 +34,22 @@ export default {
     ChatInput,
   },
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     ...mapGetters(["menus", "currentSession"]),
     sessionMessages() {
-      // console.log(this.menus, this.currentSession, this.type);
-      // debugger
       const sessions =
         this.menus.find((session) => session.type === this.type) || [];
-      const session =
+        const session =
         sessions.sessions &&
         sessions.sessions.find(
-          (item) => item.session_id === this.currentSession
+          (item) => item.session_id === this.sessionId
         );
+        // debugger
       return session ? session.messages : [];
-    },
-  },
-  watch: {
-    // currentSession(newSessionId) {
-    //   if (newSessionId) {
-    //     this.$nextTick(() => {
-    //     })
-    //   }
-    // },
+    }
   },
   methods: {
     // ...mapActions("chat", [
@@ -62,19 +58,13 @@ export default {
     // "fetchMessages",
     // ]),
     addMessage(message) {
-      // if (this.currentSession) {
-      // this.addMessageToSession({ sessionId: this.currentSession, message });
-      // }
     },
   },
   async created() {
-    // console.log(this.type)
-    // if (this.currentSession) {
-    //   await this.fetchSessions({ user_id: this.userId, type: 0 });
-    //   await this.fetchMessages(this.currentSession);
-    // }
+    // console.log(this.type, 'uuuuuuuu')
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>
 <style lang="scss" scoped>

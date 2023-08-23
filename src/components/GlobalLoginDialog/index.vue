@@ -11,7 +11,7 @@
     >
       <div class="form-content">
         <div class="top-content">
-          <img class="close-icon" @click="handleClose" src="@/assets/common/icon_close_sel@2x.png" />
+          <img v-if="showClose" class="close-icon" @click="handleClose" src="@/assets/common/icon_close_sel@2x.png" />
           <div class="title-container">
             <h3 class="title">登录</h3>
           </div>
@@ -120,6 +120,7 @@ export default {
           { required: true, trigger: "blur", validator: validatePassword },
         ],
       },
+      showClose: true,
       sucCallBack: () => {},
       failCallBack: () => {},
       loading: false,
@@ -136,9 +137,10 @@ export default {
   //   }
   // },
   methods: {
-    handleOpen(sucCallBack, failCallBack) {
-      this.sucCallBack = sucCallBack || (() => {})
-      this.failCallBack = failCallBack || (() => {})
+    handleOpen(option) {
+      this.sucCallBack = option.sucCallBack || (() => {})
+      this.failCallBack = option.failCallBack || (() => {})
+      this.showClose = option.showClose
       this.showDialog = true
     },
     handleClose() {
@@ -168,6 +170,7 @@ export default {
             })
             .catch(() => {
               this.loading = false;
+              this.failCallBack()
             });
         } else {
           console.log("请正确填写登录信息");

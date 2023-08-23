@@ -1,4 +1,5 @@
 const sessionListMap = {
+  // 常规聊天菜单
   0: [
     {
       "isDeleted": 0,
@@ -19,6 +20,7 @@ const sessionListMap = {
       "type": 0
     }
   ],
+  // 单文件聊天菜单
   1: [
     {
       "isDeleted": 0,
@@ -37,6 +39,38 @@ const sessionListMap = {
       "create_time": "2023-08-07 18:10:49",
       "update_time": "2023-08-07 18:10:49",
       "type": 1
+    }
+  ],
+  // 多文件聊天菜单
+  4: [
+    {
+      "isDeleted": 0,
+      "session_id": 12129,
+      "user_id": "882416d0_0188_3806a09f_2c908239_00a9",
+      "session_name": "343697223843975168",
+      "create_time": "2023-08-12 16:21:28",
+      "update_time": "2023-08-12 16:21:28",
+      "type": 4
+    },
+    {
+      "isDeleted": 0,
+      "session_id": 12130,
+      "user_id": "882416d0_0188_3806a09f_2c908239_00a9",
+      "session_name": "343697223843975168 2",
+      "create_time": "2023-08-12 16:34:28",
+      "update_time": "2023-08-12 16:34:28",
+      "type": 4
+    }
+  ],
+  5: [
+    {
+      "isDeleted": 0,
+      "session_id": 12669,
+      "user_id": "882416d0_0188_3806a09f_2c908239_00a9",
+      "session_name": "882416d0_0188_3806a09f_2c908239_00a9的机器人会话",
+      "create_time": "2023-08-20 07:34:25",
+      "update_time": "2023-08-20 07:34:25",
+      "type": 5
     }
   ]
 }
@@ -144,10 +178,89 @@ const sessionChatRecordMap = {
       "chat_type": 0,
       "model_name": "gpt-3.5-turbo-16k"
     }
-  ]
+  ],
+  '12129': [
+    {
+      "role": "assistant",
+      "content": "343697223843975168.pdf的摘要：这份长文标题为“人工智能、大数据时代”，内容主要是关于人工智能的讨论，作者是Steven。",
+      "session_chat_id": 120048,
+      "session_id": 12129,
+      "token_num": 50,
+      "create_time": "2023-08-12 16:21:36",
+      "update_time": "2023-08-12 16:21:36",
+      "is_deleted": 0,
+      "chat_type": 0,
+      "model_name": "gpt-3.5-turbo-16k"
+    }
+  ],
+  '12130': [
+    {
+      "role": "assistant",
+      "content": "1-343697223843975168.pdf: 文档标题为“人工智能、大数据时代”，内容涉及人工智能，作者为steven。\n2-343697223843975168 2.pdf: 文档标题为“人工智能、大数据时代”，内容涉及人工智能，作者为steven。",
+      "session_chat_id": 120057,
+      "session_id": 12130,
+      "token_num": 86,
+      "create_time": "2023-08-12 16:34:40",
+      "update_time": "2023-08-12 16:34:40",
+      "is_deleted": 0,
+      "chat_type": 0,
+      "model_name": "gpt-3.5-turbo-16k"
+    }
+  ],
+  '12669': [
+    {
+        "role": "user",
+        "content": "你好",
+        "session_chat_id": 127540,
+        "session_id": 12669,
+        "token_num": 11,
+        "create_time": "2023-08-20 07:38:32",
+        "update_time": "2023-08-20 07:38:32",
+        "is_deleted": 0,
+        "chat_type": 0,
+        "model_name": "gpt-3.5-turbo-16k"
+    },
+    {
+        "role": "assistant",
+        "content": "你好呀！有什么我可以帮到你的吗？无论是关于AI绘画、冒险游戏、翻译，还是关于客服、专家系统、用户隐私等方面的问题，我都会尽力给你满意的答案哦！快告诉我你的问题吧！",
+        "session_chat_id": 127541,
+        "session_id": 12669,
+        "token_num": 103,
+        "create_time": "2023-08-20 07:38:32",
+        "update_time": "2023-08-20 07:38:32",
+        "is_deleted": 0,
+        "chat_type": 0,
+        "model_name": "gpt-3.5-turbo-16k"
+    },
+    {
+        "role": "user",
+        "content": "nh\n",
+        "session_chat_id": 127843,
+        "session_id": 12669,
+        "token_num": 11,
+        "create_time": "2023-08-20 17:24:01",
+        "update_time": "2023-08-20 17:24:01",
+        "is_deleted": 0,
+        "chat_type": 0,
+        "model_name": "gpt-3.5-turbo-16k"
+    },
+    {
+        "role": "assistant",
+        "content": "你好！很高兴为您解答问题。请问您有什么疑问呢？",
+        "session_chat_id": 127844,
+        "session_id": 12669,
+        "token_num": 38,
+        "create_time": "2023-08-20 17:24:01",
+        "update_time": "2023-08-20 17:24:01",
+        "is_deleted": 0,
+        "chat_type": 0,
+        "model_name": "gpt-3.5-turbo-16k"
+    }
+]
 }
 
 const fileChatBySessionIdMap = {
+  // 单文件
   '11703': [
     {
       "id": "343697223843975168",
@@ -160,6 +273,7 @@ const fileChatBySessionIdMap = {
       "createTime": "2023-08-07 18:10:10"
     }
   ],
+  // 单文件
   '11704': [
     {
       "id": "343697419772497920",
@@ -170,6 +284,52 @@ const fileChatBySessionIdMap = {
       "fileSize": 54935,
       "isDeleted": 0,
       "createTime": "2023-08-07 18:10:58"
+    }
+  ],
+  // 多文件
+  '12129': [
+    {
+      "id": "345481841014345728",
+      "sessionId": 12129,
+      "fileName": "343697223843975168",
+      "fileUrl": "https://funai.oss-cn-beijing.aliyuncs.com/file/882416d0_0188_3806a09f_2c908239_00a9/12129/345481841014345728.pdf",
+      "embeddingNum": 1,
+      "fileSize": 54935,
+      "isDeleted": 0,
+      "createTime": "2023-08-12 16:21:32"
+    },
+    {
+      "id": "345482051329331200",
+      "sessionId": 12129,
+      "fileName": "343697223843975168",
+      "fileUrl": "https://funai.oss-cn-beijing.aliyuncs.com/file/882416d0_0188_3806a09f_2c908239_00a9/12129/345482051329331200.pdf",
+      "embeddingNum": 1,
+      "fileSize": 54935,
+      "isDeleted": 0,
+      "createTime": "2023-08-12 16:22:22"
+    }
+  ],
+  // 多文件
+  '12130': [
+    {
+      "id": "345485129726169088",
+      "sessionId": 12130,
+      "fileName": "343697223843975168",
+      "fileUrl": "https://funai.oss-cn-beijing.aliyuncs.com/file/882416d0_0188_3806a09f_2c908239_00a9/12130/345485129726169088.pdf",
+      "embeddingNum": 1,
+      "fileSize": 54935,
+      "isDeleted": 0,
+      "createTime": "2023-08-12 16:34:35"
+    },
+    {
+      "id": "345485130556641280",
+      "sessionId": 12130,
+      "fileName": "343697223843975168 2",
+      "fileUrl": "https://funai.oss-cn-beijing.aliyuncs.com/file/882416d0_0188_3806a09f_2c908239_00a9/12130/345485130556641280.pdf",
+      "embeddingNum": 1,
+      "fileSize": 54935,
+      "isDeleted": 0,
+      "createTime": "2023-08-12 16:34:36"
     }
   ]
 }

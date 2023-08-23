@@ -1,104 +1,40 @@
-// store.js
-// sessions: [
-//     {
-//         session_id: 'session1',
-//         session_name: '会话1',
-//         messages: [
-//             { text: '你好', time: '09:00', role: 'user' },
-//             { text: '你好，有什么需要帮助的吗？', time: '09:01', role: 'assistant' },
-//         ],
-//     },
-//     {
-//         session_id: 'session2',
-//         session_name: '会话2',
-//         messages: [
-//             { text: '这是会话2的消息1', time: '10:00', role: 'user' },
-//             { text: '这是会话2的消息2', time: '10:01', role: 'assistant' },
-//             { text: '这是会话2的消息3', time: '10:02', role: 'user' },
-//         ],
-//     }
-// ]
-// import Vue from 'vue';
+
 import { getSessionList, getSessionChatRecord, getFileChatBySessionId, addSession, streamSessionChat } from "@/api/chat";
-// import { getMenuAddItem } from '@/config/index'
 import { getCurrentType, getCurrentSession, setCurrentSession } from '@/utils/auth'
 import { chatTypeMap } from '@/config/index'
+import robot from "@/assets/chat/icon_aliwangwang_nor@2x.png";
+import activeRobot from "@/assets/chat/icon_aliwangwang_sel@2x.png";
+import artificial from "@/assets/chat/icon_comment_nor@2x.png";
+import activeArtificial from "@/assets/chat/icon_comment_sel@2x.png";
 
 const state = {
-    // 存放菜单
-    menus: [{
-        name: 'AI对话',
-        hadSubMenu: true,
-        sessions: [{
-            "key": "add",
-            "session_name": '创建新对话',
-            "type": 0
-        }],
-        type: 0,
-        key: 'normalChat',
-        icon: 'common/icon_ai_duihua_sel@2x.png',
-        activeIcon: 'common/icon_ai_duihua_sel@2x.png',
-        addSessionRoute: { name: 'Index' }, // 创建的时候跳转的页面路由名称，即key为‘add’代表是创建会话，才会跳转这个
-        pageRoute: { name: 'Chat' } // 正常跳转的路由页面
-    }, {
-        name: '单文件阅读',
-        hadSubMenu: true,
-        type: 1,
-        sessions: [{
-            "key": "add",
-            "session_name": '创建新对话',
-            "type": 1
-        }],
-        key: 'pdfChat',
-        icon: 'common/icon_danwenjian_nor@2x.png',
-        activeIcon: 'common/icon_danwenjian_sel@2x.png',
-        addSessionRoute: { name: 'ChatWithFile', params: { type: "single" } }, // 创建的时候跳转的页面路由名称，即key为‘add’代表是创建会话，才会跳转这个
-        pageRoute: { name: 'SingleFileChat' } // 正常跳转的路由页面
-    }, {
-        name: '多文件阅读',
-        hadSubMenu: true,
-        type: 4,
-        sessions: [{
-            "key": "add",
-            "session_name": '创建新对话',
-            "type": 4
-        }],
-        key: 'multiPdfChat',
-        icon: 'common/icon_duowenjian_nor@2x.png',
-        activeIcon: 'common/icon_duowenjian_sel@2x.png',
-        addSessionRoute: { name: 'ChatWithFile', params: { type: "multiple" } }, // 创建的时候跳转的页面路由名称，即key为‘add’代表是创建会话，才会跳转这个
-        pageRoute: { name: 'MultipleFileChat' } // 正常跳转的路由页面
-    }, {
-        name: 'AI画图',
-        hadSubMenu: false,
-        sessions: [],
-        type: 99,
-        key: 'draw',
-        icon: 'common/icon_ai_huatu_nor@2x.png',
-        activeIcon: 'common/icon_ai_huatu_sel@2x.png'
-        // pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
-    }, {
-        name: '冒险游戏',
-        hadSubMenu: true,
-        sessions: [],
-        type: 2,
-        key: 'gameChat',
-        icon: 'common/icon_maoxianyouxi_nor@2x.png',
-        activeIcon: 'common/icon_maoxianyouxi_sel@2x.png',
-        addSessionRoute: { name: 'ChatWithGame' }, // 创建的时候跳转的页面路由名称，即key为‘add’代表是创建会话，才会跳转这个
-        pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
-    }, {
-        name: '语言专家',
-        hadSubMenu: false,
-        sessions: [],
-        type: 100,
-        key: 'language',
-        icon: 'common/icon_yuyanzhuanjia_nor@2x.png',
-        activeIcon: 'common/icon_yuyanzhuanjia_sel@2x.png',
-        // pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
-    }],
-    currentType: getCurrentType(),
-    currentSession: getCurrentSession() || null, // 当前选中的会话
+    // 存放客服菜单
+    sliderBar: [
+        {
+            title: "FunAI机器人客服",
+            isActive: true,
+            icon: robot,
+            messages: [{
+                // create_time: new Date().toLocaleString( ).replaceAll("/","-"),
+                role: 'assistant',
+                content: '欢迎来到FunAi，我是FunAi的智能客服😀，您可以向我询问关于FunAi的任何问题~'
+            }],
+            type: 'robot',
+            activeIcon: activeRobot,
+        },
+        {
+            title: "FunAI人工客服",
+            isActive: false,
+            messages: [{
+                // create_time: new Date().toLocaleString( ).replaceAll("/","-"),
+                role: 'assistant',
+                content: '欢迎来到FunAi，我是FunAi的智能客服😀，您可以向我询问关于FunAi的任何问题~'
+            }],
+            sessionId: 'robot',
+            icon: artificial,
+            activeIcon: activeArtificial
+        },
+    ]
 };
 
 const mutations = {
