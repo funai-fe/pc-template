@@ -56,7 +56,7 @@
       </div>
 
       <div v-else key="expand" class="sidebar-logo-link collapse">
-        <div v-for="menu in menus" :key="menu.key">
+        <div v-for="menu in menus" :key="menu.key" @click="toggleSideBar(menu)">
           <el-tooltip
             v-if="menu.icon"
             class="tooltip-item"
@@ -112,7 +112,12 @@ export default {
     },
 
     ...mapActions("menu", ["selectSession", "fetchSessions", "fetchMessages"]),
-    
+
+    toggleSideBar(menu) {
+      this.$store.dispatch("app/toggleSideBar");
+      this.activeName = menu.key;
+    },
+
     // 点击子菜单
     selectSessionItem(menu, session) {
       if (session.session_id === this.currentSession) {
@@ -128,8 +133,9 @@ export default {
 
     // 没有子菜单点击直接路由跳转
     selectMenu(menu) {
-      this.$router.push(menu.pageRoute)
-    }
+      this.activeName = menu.key;
+      this.$router.push(menu.pageRoute);
+    },
   },
   async created() {
     this.init();

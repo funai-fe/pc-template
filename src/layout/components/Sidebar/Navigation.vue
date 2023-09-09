@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapMutations, mapGetters, mapActions } from "vuex";
 export default {
   name: "SidebarNavigation",
   props: {
@@ -58,6 +58,7 @@ export default {
     ...mapGetters(["name"])
   },
   methods: {
+    ...mapMutations("app", ["SET_CALL_US_DIALOG"]),
     ...mapActions("user", ["logOut"]),
     handleCommand(command) {
       if (command === "logOut") {
@@ -68,7 +69,7 @@ export default {
       this[item.callBackFn]();
     },
     callUs() {
-      this.$emit('showCallUsDialog')
+      this.SET_CALL_US_DIALOG(true)
     },
     customerService() {
       this.$router.push('/customerService')

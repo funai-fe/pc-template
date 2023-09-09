@@ -1,13 +1,11 @@
 <template>
   <div :class="classObj" class="app-wrapper">
     <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" @showCallUsDialog="$refs.CallUsDialog.open()" />
+    <sidebar class="sidebar-container" />
     <div class="main-container">
       <hamburger v-show="!sidebar.opened" :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
       <app-main />
     </div>
-    <CallUsDialog ref="CallUsDialog" />
-    <AddSessionDialog />
   </div>
 </template>
 
@@ -16,17 +14,13 @@ import { mapGetters } from 'vuex'
 import { Sidebar, AppMain } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import Hamburger from '@/components/Hamburger'
-import CallUsDialog from "@/layout/components/Sidebar/CallUsDialog.vue";
-import AddSessionDialog from '@/components/AddSessionDialog/index.vue'
 
 export default {
   name: 'Layout',
   components: {
     Sidebar,
     AppMain,
-    Hamburger,
-    CallUsDialog,
-    AddSessionDialog
+    Hamburger
   },
   mixins: [ResizeMixin],
   computed: {

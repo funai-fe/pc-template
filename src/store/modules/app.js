@@ -9,6 +9,7 @@ const state = {
   },
   device: 'desktop',
   loginDialog: null, // 弹窗实例
+  showCallUsDialog: false, // 联系我们弹窗
   showAddSessionDialog: false // 展示新增会话弹窗
 }
 
@@ -42,6 +43,9 @@ const mutations = {
   // 设置页面标题
   SET_PAGE_HEADER_TITLE: (state, pageHeaderTitle) => {
     state.pageHeaderTitle = pageHeaderTitle
+  },
+  SET_CALL_US_DIALOG: (state, flag) => {
+    state.showCallUsDialog = flag
   },
   SET_ADD_SESSION_DIALOG: (state, flag) => {
     state.showAddSessionDialog = flag
