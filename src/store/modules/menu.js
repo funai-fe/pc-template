@@ -67,7 +67,7 @@ const state = {
         icon: 'common/icon_duowenjian_nor@2x.png',
         activeIcon: 'common/icon_duowenjian_sel@2x.png',
         addSessionRoute: { name: 'ChatWithFile', params: { type: "multiple" } }, // 创建的时候跳转的页面路由名称，即key为‘add’代表是创建会话，才会跳转这个
-        pageRoute: { naicon_ai_huatu_selme: 'MultipleFileChat' } // 正常跳转的路由页面
+        pageRoute: { name: 'MultipleFileChat' } // 正常跳转的路由页面
     }, {
         name: 'AI画图',
         hadSubMenu: false,
