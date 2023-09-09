@@ -339,19 +339,20 @@ export default [
   {
     url: '/chat/addSession',
     type: 'post',
-    response: _ => {
+    response: config => {
+      const { type, user_id, session_name } = config.body
       return {
         "code": 20000,
         "message": "成功",
         "data": {
           "session": {
             "isDeleted": null,
-            "session_id": 11477,
-            "user_id": "882416d0_0188_3806a09f_2c908239_00a9",
-            "session_name": "test3",
-            "create_time": null,
-            "update_time": null,
-            "type": 0
+            "session_id": 10737,
+            "user_id": user_id,
+            "session_name": session_name,
+            "create_time": new Date().toLocaleString().replaceAll("/", "-"),
+            "update_time": new Date().toLocaleString().replaceAll("/", "-"),
+            "type": type
           }
         }
       }

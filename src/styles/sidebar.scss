@@ -208,7 +208,7 @@
 .sidebar-menu-container {
   width: 100%;
   background: #f9fafb;
-  padding: 10px 30px;
+  padding: 10px 22px;
 
   &.collapse {
     padding: 10px 0;
@@ -222,6 +222,23 @@
   & .sidebar-logo-link {
     overflow: inherit !important;
     position: relative;
+
+    .single-menu-item {
+      height: 42px;
+      align-items: center;
+      display: flex;
+      background-color: #f9fafb;
+      font-size: 16px;
+      font-family: PingFangSC-Medium, PingFang SC;
+      color: #6c727f;
+      cursor: pointer;
+      border-radius: 6px;
+      padding: 0 8px;
+
+      &:hover {
+        background-color: #e5e6e8;
+      }
+    }
 
     &.collapse {
       display: flex !important;
@@ -255,9 +272,15 @@
   font-size: 16px;
   font-family: PingFangSC-Medium, PingFang SC;
   color: #6c727f;
+  border-radius: 6px;
+  padding: 0 8px;
 
   &.is-active {
     color: #000B58;
+  }
+
+  &:hover {
+    background-color: #e5e6e8;
   }
 }
 
@@ -418,9 +441,10 @@
   }
 }
 
-.dropdown-item .el-dropdown-menu__item:focus, .dropdown-item .el-dropdown-menu__item:not(.is-disabled):hover {
-    background-color: hsl(220, 6%, 90%)!important;
-    color: #000B58!important;
+.dropdown-item .el-dropdown-menu__item:focus,
+.dropdown-item .el-dropdown-menu__item:not(.is-disabled):hover {
+  background-color: hsl(220, 6%, 90%) !important;
+  color: #000B58 !important;
 }
 
 // 菜单底部——————end

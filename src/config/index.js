@@ -59,7 +59,7 @@ export const chatTypeMap = {
     'multiPdfChat': {
         chatType: 4 
     },
-    // 客服聊天
+    // 机器人客服聊天
     'customerChat': {
         chatType: 5
     },

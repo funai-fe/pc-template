@@ -143,7 +143,7 @@ export const constantRoutes = [
         name: 'CustomerService',
         component: () => import('@/views/customerService/index'),
         // hidden: true,
-        meta: { keepAlive: true, title: 'CustomerService', icon: 'index', showHeader: false }
+        meta: { title: 'CustomerService', icon: 'index', showHeader: false }
       }
     ]
   },

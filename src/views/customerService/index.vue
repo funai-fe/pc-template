@@ -5,7 +5,7 @@
         <div
           class="tab-item"
           v-for="item in sliderBar"
-          :key="item.key"
+          :key="item.type"
           @click="chooseAssistantType(item)"
         >
           <img
@@ -18,12 +18,17 @@
           }}</span>
         </div>
       </div>
-      <div class="chat-box">
+      <div
+        class="chat-box"
+        v-for="item in sliderBar"
+        v-show="item.isActive"
+        :key="item.type"
+      >
         <ChatSession
           :type="chatType"
           class="chat-session"
-          :sessionId="currentSession"
           :isMiniSize="true"
+          :hideScrollbar="true"
         />
       </div>
     </div>
@@ -31,7 +36,7 @@
 </template>
   
   <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import ChatSession from "@/components/ChatSession/index.vue";
 // import robot from "@/assets/chat/icon_aliwangwang_nor@2x.png";
 // import activeRobot from "@/assets/chat/icon_aliwangwang_sel@2x.png";
@@ -48,32 +53,20 @@ export default {
   data() {
     return {
       chatType: chatTypeMap["customerChat"].chatType,
-    //   sliderBar: [
-    //     {
-    //       title: "FunAI机器人客服",
-    //       isActive: true,
-    //       icon: robot,
-    //       activeIcon: activeRobot,
-    //     },
-    //     {
-    //       title: "FunAI人工客服",
-    //       isActive: false,
-    //       icon: artificial,
-    //       activeIcon: activeArtificial
-    //     },
-    //   ],
     };
   },
   computed: {
-    ...mapState("customerService", ["sliderBar"])
+    ...mapState("customerService", ["sliderBar"]),
   },
   methods: {
+    ...mapActions("customerService", ["initData", "changeCurrentChatType"]),
     //选择客服类型
     chooseAssistantType(item) {
-      this.sliderBar.forEach((i) => (i.isActive = false));
-      item.isActive = true;
-      //   this.$store.commit("changeCurrentChatType", item.title);
+      this.changeCurrentChatType({ item, page: this });
     },
+  },
+  created() {
+    this.initData(this);
   },
 };
 </script>
@@ -121,6 +114,7 @@ export default {
       }
     }
     .chat-box {
+      padding-bottom: 15px;
       flex: 1;
       border-radius: 0 30px 30px 0;
     }

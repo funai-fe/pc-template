@@ -7,16 +7,17 @@
         rows="1"
         v-model="currentMessage"
         @input="adjustTextareaHeight"
+        @keydown.enter="handleEnterKey"
         :placeholder="placeholder"
       ></textarea>
       <el-tooltip
-        v-if="!true"
+        v-if="!isSending"
         class="item"
         effect="dark"
         content="发送消息"
         placement="top"
       >
-        <button class="send-button">发送</button>
+        <button class="send-button" :class="{ 'disabled': !currentMessage }" :disabled="!currentMessage" @click="sendMessage">发送</button>
       </el-tooltip>
       <el-tooltip
         v-else
@@ -52,6 +53,7 @@ export default {
   },
   data() {
     return {
+      isSending: false,
       currentMessage: "",
     };
   },
@@ -63,15 +65,19 @@ export default {
       const height = Math.min(200, textarea.scrollHeight);
       textarea.style.height = height + "px";
     },
+    handleEnterKey() {
+      console.log('111')
+    },
     sendMessage() {
       const messageText = this.currentMessage.trim();
       if (messageText) {
-        const message = {
-          id: Date.now(),
-          text: messageText,
-          isMe: true, // Indicate if the message is sent by the user
-        };
-        this.$emit("newMessage", message);
+        this.isSending = true
+        this.$emit("addMessage", {
+          messageText,
+          callBack: () => {
+            this.isSending = false
+          }
+        });
         this.currentMessage = "";
       }
     },
@@ -123,6 +129,11 @@ export default {
       max-height: 200px; /* 设置最大高度为200px */
       overflow-y: auto; /* 超过最大高度时显示滚动条 */
       outline: none;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
     .send-button {
       display: flex;
@@ -147,6 +158,11 @@ export default {
           width: 16px;
           height: 16px;
         }
+      }
+
+      &.disabled {
+        background-color: rgba(172, 172, 190, 1);
+        cursor: inherit;
       }
     }
   }

@@ -15,7 +15,7 @@ const getters = {
 // 菜单
   currentSession: state => state.menu.currentSession,
   menus: state => state.menu.menus,
-  currentType: state => state.menu.chatType
+  currentType: state => state.menu.currentType
   
 }
 export default getters

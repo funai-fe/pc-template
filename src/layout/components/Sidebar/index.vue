@@ -4,7 +4,7 @@
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <Menu :collapse="isCollapse" />
     </el-scrollbar>
-    <Navigation :collapse="isCollapse" />
+    <Navigation :collapse="isCollapse" @showCallUsDialog="$emit('showCallUsDialog')"/>
   </div>
 </template>
 

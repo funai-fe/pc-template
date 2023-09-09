@@ -1,4 +1,4 @@
-import Vue from 'vue'
+
 import Cookies from 'js-cookie'
 
 const state = {
@@ -9,6 +9,7 @@ const state = {
   },
   device: 'desktop',
   loginDialog: null, // 弹窗实例
+  showAddSessionDialog: false // 展示新增会话弹窗
 }
 
 const mutations = {
@@ -41,6 +42,9 @@ const mutations = {
   // 设置页面标题
   SET_PAGE_HEADER_TITLE: (state, pageHeaderTitle) => {
     state.pageHeaderTitle = pageHeaderTitle
+  },
+  SET_ADD_SESSION_DIALOG: (state, flag) => {
+    state.showAddSessionDialog = flag
   }
 }
 

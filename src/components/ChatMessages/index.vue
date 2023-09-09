@@ -1,5 +1,8 @@
 <template>
-  <div class="chat-messages" :class="{ 'mini-size': isMiniSize }">
+  <div
+    class="chat-messages"
+    :class="{ 'mini-size': isMiniSize, 'hide-scrollbar': hideScrollbar }"
+  >
     <div
       class="message-content"
       v-for="message in messages"
@@ -31,11 +34,11 @@
           <div class="chat-text">
             <div class="text">{{ message.content }}</div>
             <div class="tools">
-              <div class="tools-item">
+              <div class="tools-item" @click="copyMessage(message.content)">
                 <img src="@/assets/chat/icon_copy_nor@2x.png" alt="" />
                 <span>复制内容</span>
               </div>
-              <div class="tools-item">
+              <div class="tools-item" @click="playSound(message.session_chat_id, message.content)">
                 <img src="@/assets/chat/icon_audio_sel@2x.png" alt="" />
                 <span>播放语音</span>
               </div>
@@ -47,7 +50,8 @@
   </div>
 </template>
   
-  <script>
+<script>
+import ClipboardJS from "clipboard";
 import { mapGetters, mapActions } from "vuex";
 export default {
   props: {
@@ -59,10 +63,65 @@ export default {
       type: Boolean,
       default: false,
     },
+    hideScrollbar: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  data() {
+    return {
+      curPlaySoundMsgIndex: -1,
+    };
   },
   computed: {
     ...mapGetters(["name"]),
   },
+  methods: {
+    // 复制内容
+    copyMessage(text) {
+      // 创建一个临时文本输入框，将消息文本添加到其中
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+
+      // 将文本输入框添加到文档中
+      document.body.appendChild(textArea);
+
+      // 选中文本输入框的内容
+      textArea.select();
+
+      // 尝试复制文本到剪贴板
+      try {
+        document.execCommand("copy");
+        this.$message.success("复制成功!");
+      } catch (err) {
+        this.$message.error("复制失败，请手动复制文本!");
+      }
+
+      // 清除和移除文本输入框
+      document.body.removeChild(textArea);
+    },
+    // 播放语音
+    playSound(msgIndex, msg) {
+      if (!this.isPlaySound) {
+        speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+        this.curPlaySoundMsgIndex = msgIndex;
+        this.isPlaySound = !this.isPlaySound;
+      } else {
+        speechSynthesis.cancel();
+        if (this.curPlaySoundMsgIndex != msgIndex) {
+          speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+          this.curPlaySoundMsgIndex = msgIndex;
+        } else {
+          this.isPlaySound = !this.isPlaySound;
+        }
+      }
+    },
+  },
+  beforeDestroy() {
+    speechSynthesis.cancel();
+    this.curPlaySoundMsgIndex = -1;
+    this.isPlaySound = !this.isPlaySound;
+  }
 };
 </script>
   
@@ -70,26 +129,26 @@ export default {
 $headMargin: 16px;
 @mixin message-mini {
   .head-icon {
-    margin-right: 8px!important;
+    margin-right: 8px !important;
     align-self: flex-start;
     img {
-      width: 30px!important;
-      height: 30px!important;
+      width: 30px !important;
+      height: 30px !important;
     }
   }
   .chat-content {
     .user-info {
       span {
-        font-size: 12px!important;
+        font-size: 12px !important;
       }
       .name {
-        margin-right: 5px!important;
+        margin-right: 5px !important;
       }
     }
     .chat-text {
-      padding: 10px!important;
+      padding: 10px !important;
       .text {
-        line-height: 20px!important;
+        line-height: 20px !important;
       }
     }
     .tools {
@@ -103,7 +162,7 @@ $headMargin: 16px;
 }
 @mixin user-message-mini {
   .head-icon {
-    margin-left: 8px!important;
+    margin-left: 8px !important;
   }
 }
 /* 添加样式以美化消息列表 */
@@ -114,6 +173,13 @@ $headMargin: 16px;
   align-items: center;
   overflow-y: auto;
   padding: 10px;
+  &.hide-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
   .message-content {
     display: flex;

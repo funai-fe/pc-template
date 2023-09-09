@@ -19,11 +19,11 @@
 //     }
 // ]
 // import Vue from 'vue';
+import SSEManager from '@/utils/sse'
 import { getSessionList, getSessionChatRecord, getFileChatBySessionId, addSession, streamSessionChat } from "@/api/chat";
 // import { getMenuAddItem } from '@/config/index'
 import { getCurrentType, getCurrentSession, setCurrentSession } from '@/utils/auth'
 import { chatTypeMap } from '@/config/index'
-
 const state = {
     // 存放菜单
     menus: [{
@@ -75,8 +75,8 @@ const state = {
         type: 99,
         key: 'draw',
         icon: 'common/icon_ai_huatu_nor@2x.png',
-        activeIcon: 'common/icon_ai_huatu_sel@2x.png'
-        // pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
+        activeIcon: 'common/icon_ai_huatu_sel@2x.png',
+        pageRoute: { name: 'SmartLanguage' } // 正常跳转的路由页面
     }, {
         name: '冒险游戏',
         hadSubMenu: true,
@@ -95,7 +95,7 @@ const state = {
         key: 'language',
         icon: 'common/icon_yuyanzhuanjia_nor@2x.png',
         activeIcon: 'common/icon_yuyanzhuanjia_sel@2x.png',
-        // pageRoute: { name: 'GameChat' } // 正常跳转的路由页面
+        pageRoute: { name: 'SmartLanguage' } // 正常跳转的路由页面
     }],
     currentType: getCurrentType(),
     currentSession: getCurrentSession() || null, // 当前选中的会话
@@ -142,6 +142,12 @@ const actions = {
         let { type } = menu
 
         if (session.key === 'add') {
+            let { normalChat } = chatTypeMap
+            // 普通会话新增直接打开弹窗
+            if (type === normalChat.chatType) {
+                commit('app/SET_ADD_SESSION_DIALOG', true, { root: true });
+                return
+            }
             // 点击新增会话则清空current_session
             commit('SET_CURRENT_SESSION', { type: type, currentSession: null });
         } else {
@@ -230,6 +236,31 @@ const actions = {
                     reject(error)
                 })
             })
+        } catch (error) {
+            console.error('查询聊天对话信息异常，请刷新重试', error);
+        }
+    },
+
+    // 发送聊天信息
+    async addMessge({ commit }, { messageText, callBack }) {
+        try {
+            const sseInstance = new SSEManager({
+                onMessage: (data) => {
+                    // 处理收到的 SSE 消息
+                    
+                    callBack && callBack()
+                },
+            });
+            console.log(sseInstance)
+            // return new Promise((resolve, reject) => {
+            //     getFileChatBySessionId({ sessionId: sessionId }).then(response => {
+            //         const { fileChat } = response.data
+            //         commit('SET_SESSION_FILE', { page, type, sessionId, fileChat: fileChat || [] });
+            //         resolve()
+            //     }).catch(error => {
+            //         reject(error)
+            //     })
+            // })
         } catch (error) {
             console.error('查询聊天对话信息异常，请刷新重试', error);
         }

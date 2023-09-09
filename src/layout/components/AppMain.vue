@@ -9,9 +9,9 @@
         <div class="header-wrap" :class="{ 'fixed-header': fixedHeader }">
           <CommonHeader />
         </div>
-        <keep-alive>
+        <!-- <keep-alive> -->
           <router-view :key="key" />
-        </keep-alive> 
+        <!-- </keep-alive>  -->
       </div>
     </transition>
   </section>
