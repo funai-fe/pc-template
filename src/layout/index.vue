@@ -87,9 +87,9 @@ export default {
     position: fixed;
     top: 0px;
     left: 54px;
-    z-index: 10;
+    z-index: 100;
     padding: 0 15px;
-    line-height: 68px;
+    line-height: $pageNavbar;
     cursor: pointer;
     transition: background .3s;
     -webkit-tap-highlight-color:transparent;

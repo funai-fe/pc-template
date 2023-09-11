@@ -5,7 +5,13 @@
     </div>
 
     <div class="file-viewer-wrap" :style="{ height: height }" v-else>
-      <iframe class="microsoft-office" width="100%" height="100%" :src="source" frameborder="0"></iframe>
+      <iframe
+        class="microsoft-office"
+        width="100%"
+        height="100%"
+        :src="source"
+        frameborder="0"
+      ></iframe>
     </div>
   </div>
 </template>
@@ -29,7 +35,7 @@ export default {
     },
     height: {
       type: String,
-      default: "100vh", // 默认高度为100%视窗高度
+      default: "100%", // 默认高度为100%视窗高度
     }
   },
   data() {
@@ -43,14 +49,18 @@ export default {
     }
   },
   watch: {
-    fileUrl(url) {
-      // debugger
+    fileUrl: {
+      handler(val) {
       this.source = this.isPDF
         ? `${this.fileUrl}`
         : `${G_MICROSOFT_OFFICE_PRE_LINK}${this.fileUrl}`;
-    },
+      },
+      // 立即执行回调函数
+      immediate: true,
+    }
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {},
 };
 </script>

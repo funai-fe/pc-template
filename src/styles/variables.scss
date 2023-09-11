@@ -7,11 +7,13 @@ $menuBg:#F9FAFB; //左菜单背景颜色
 // $subMenuBg:#1f2d3d;
 // $subMenuHover:#001528;
 
-$pageCommonHeigth: 144; // 头部高度
+// $pageCommonHeigth: 144; // 头部高度
+$pageNavbar: 50px; // 菜单顶部或多文件navbar顶部菜单高度
 $sideBarWidth: 260px; // 菜单宽度
 
 :export {
-  pageCommonHeigth: $pageCommonHeigth;
+  $pageNavbar: $pageNavbar;
+  // pageCommonHeigth: $pageCommonHeigth;
   // subMenuActiveText: $subMenuActiveText;
   menuBg: $menuBg;
   // menuHover: $menuHover;
