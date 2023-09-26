@@ -63,7 +63,14 @@ export const constantRoutes = [
         name: 'SmartLanguage',
         component: () => import('@/views/smart-language/index'),
         hidden: true,
-        meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译跟简单', secondTitle: '自信而准确地进行多语言交流' }
+        meta: { title: '语言专家', icon: 'index', showHeader: true, headerTitle: '让翻译更简单', secondTitle: '自信而准确地进行多语言交流' }
+      },
+      {
+        path: '/game',
+        name: 'Game',
+        component: () => import('@/views/game/index'),
+        hidden: true,
+        meta: { title: '冒险游戏', icon: 'index', showHeader: true, headerTitle: '选择您的冒险游戏', secondTitle: '工作更快，写得更好，想得更大！' }
       }
     ]
   }
