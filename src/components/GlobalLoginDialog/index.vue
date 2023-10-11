@@ -10,8 +10,13 @@
       label-position="left"
     >
       <div class="form-content">
-        <div class="top-content">
-          <img v-if="showClose" class="close-icon" @click="handleClose" src="@/assets/common/icon_close_sel@2x.png" />
+        <div class="top-content" v-if="type === 'login'">
+          <img
+            v-if="showClose"
+            class="close-icon"
+            @click="handleClose"
+            src="@/assets/common/icon_close_sel@2x.png"
+          />
           <div class="title-container">
             <h3 class="title">登录</h3>
           </div>
@@ -56,7 +61,7 @@
           <div class="register-resetpwd">
             <div class="register">立即注册</div>
             <div class="divider"></div>
-            <div class="resetpwd">忘记密码</div>
+            <div class="resetpwd" @click="forgetPassword">忘记密码</div>
           </div>
 
           <el-button
@@ -74,6 +79,79 @@
             >游客免费体验</el-button
           >
         </div>
+
+        <div class="forget-password-wrap top-content" v-else-if="type === 'forgetPassword'">
+          <div class="title-container">
+            <h3 class="title">重置密码</h3>
+          </div>
+          <el-form-item prop="phone">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="username"
+              v-model="loginForm.phone"
+              placeholder="手机号"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+          </el-form-item>
+          <el-form-item prop="verificationCode">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input
+              ref="username"
+              v-model="loginForm.verificationCode"
+              placeholder="请输入手机验证码"
+              name="username"
+              type="text"
+              tabindex="1"
+              auto-complete="on"
+            />
+            <button>发送</button>
+          </el-form-item>
+
+          <el-form-item class="password" prop="password">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="password"
+              v-model="loginForm.password"
+              :type="passwordType"
+              placeholder="密码"
+              name="password"
+              tabindex="2"
+              auto-complete="on"
+              @keyup.enter.native="handleLogin"
+            />
+            <span class="show-pwd" @click="showPwd">
+              <svg-icon
+                :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
+              />
+            </span>
+          </el-form-item>
+
+          <el-button
+            :loading="loading"
+            type="primary"
+            class="login-btn"
+            @click.native.prevent="handleLogin"
+            >确认重置密码</el-button
+          >
+          <el-button
+            :loading="loading"
+            type="primary"
+            class="tourist-btn"
+            @click.native.prevent=""
+            >返回登录</el-button
+          >
+        </div>
+
         <div class="footer-content">
           <img class="footer-bg" src="@/assets/common/image_login@2x.png" />
           <p class="tips">FUNAI 有 意 思 的 A I 体 验 馆</p>
@@ -90,8 +168,8 @@ export default {
   name: "Login",
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!value){
-        callback(new Error('用户名/手机号不能为空'))
+      if (!value) {
+        callback(new Error("用户名/手机号不能为空"));
       } else if (!validUsername(value)) {
         callback(new Error("用户名/手机号长度在2-15位之间"));
       } else {
@@ -100,12 +178,13 @@ export default {
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 2 || value.length > 18) {
-        callback(new Error('密码长度在2-18位之间'))
+        callback(new Error("密码长度在2-18位之间"));
       } else {
-        callback()
+        callback();
       }
     };
     return {
+      type: 'login',
       showDialog: false,
       loginForm: {
         loginAcct: "user",
@@ -137,14 +216,17 @@ export default {
   //   }
   // },
   methods: {
+    forgetPassword() {
+      this.type = 'forgetPassword'
+    },
     handleOpen(option) {
-      this.sucCallBack = option.sucCallBack || (() => {})
-      this.failCallBack = option.failCallBack || (() => {})
-      this.showClose = option.showClose
-      this.showDialog = true
+      this.sucCallBack = option.sucCallBack || (() => {});
+      this.failCallBack = option.failCallBack || (() => {});
+      this.showClose = option.showClose;
+      this.showDialog = true;
     },
     handleClose() {
-      this.showDialog = false
+      this.showDialog = false;
     },
     showPwd() {
       if (this.passwordType === "password") {
@@ -163,23 +245,23 @@ export default {
           this.$store
             .dispatch("user/login", this.loginForm)
             .then(() => {
-              this.$message.success("登录成功！")
-              this.handleClose()
-              this.sucCallBack()
+              this.$message.success("登录成功！");
+              this.handleClose();
+              this.sucCallBack();
               this.loading = false;
             })
             .catch(() => {
               this.loading = false;
-              this.failCallBack()
+              this.failCallBack();
             });
         } else {
           console.log("请正确填写登录信息");
           return false;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 
 <style lang="scss">

@@ -1,6 +1,7 @@
 <template>
   <div class="chatgpt-page">
     <ChatMessages
+      :type="type"
       :messages="sessionMessages"
       :isMiniSize="isMiniSize"
       :hideScrollbar="hideScrollbar"

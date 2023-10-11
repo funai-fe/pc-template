@@ -1,6 +1,7 @@
 <template>
   <div class="navbar">
     <el-select
+      v-if="fileList.length > 1"
       class="file-select"
       v-model="value"
       @change="change"

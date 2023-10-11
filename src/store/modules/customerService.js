@@ -1,4 +1,5 @@
 
+import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { Notification } from 'element-ui';
 import { getSessionRecords } from "@/api/customerService";
@@ -111,7 +112,7 @@ const actions = {
         }
     },
     // 切换菜单
-    changeCurrentChatType({ state,commit, rootGetters }, {item, page }) {
+    changeCurrentChatType({ state, commit, dispatch, rootGetters }, { item, page }) {
         commit('SET_CURRENT_SESSION', item);
 
         let { type } = item
@@ -122,14 +123,14 @@ const actions = {
                         const { list } = response.data
                         let record = []
                         if (!list) {
-                            record = list;
-                            record.unshift({
+                            record.push({
                                 create_time: new Date().toLocaleString().replaceAll("/", "-"),
                                 role: 'assistant',
                                 content: '欢迎来到FunAi，我是FunAi的人工客服😀，您可以向我询问关于FunAi的任何问题~'
                             })
                         } else {
-                            record.push({
+                            record = list;
+                            record.unshift({
                                 create_time: new Date().toLocaleString().replaceAll("/", "-"),
                                 role: 'assistant',
                                 content: '欢迎来到FunAi，我是FunAi的人工客服😀，您可以向我询问关于FunAi的任何问题~'
@@ -137,7 +138,7 @@ const actions = {
                         }
                         commit('SET_MESSAGES', { page, type: 'manual', list: record });
 
-                        dispatch('initWebSocket', { page, type, sessionId: session.session_id });
+                        dispatch('initWebSocket');
                         commit('SET_INIT_FLAG', true)
                         resolve()
                     }).catch(error => {

@@ -29,11 +29,12 @@ const state = {
     menus: [{
         name: 'AI对话',
         hadSubMenu: true,
-        sessions: [{
+        fixedSession: [{ // 每个菜单固定的一个对话框
             "key": "add",
             "session_name": '创建新对话',
             "type": 0
         }],
+        sessions: [],
         type: 0,
         key: 'normalChat',
         icon: 'common/icon_ai_duihua_sel@2x.png',
@@ -44,11 +45,12 @@ const state = {
         name: '单文件阅读',
         hadSubMenu: true,
         type: 1,
-        sessions: [{
+        fixedSession: [{
             "key": "add",
             "session_name": '创建新对话',
             "type": 1
         }],
+        sessions: [],
         key: 'pdfChat',
         icon: 'common/icon_danwenjian_nor@2x.png',
         activeIcon: 'common/icon_danwenjian_sel@2x.png',
@@ -58,11 +60,12 @@ const state = {
         name: '多文件阅读',
         hadSubMenu: true,
         type: 4,
-        sessions: [{
+        fixedSession: [{
             "key": "add",
             "session_name": '创建新对话',
             "type": 4
         }],
+        sessions: [],
         key: 'multiPdfChat',
         icon: 'common/icon_duowenjian_nor@2x.png',
         activeIcon: 'common/icon_duowenjian_sel@2x.png',
@@ -80,6 +83,11 @@ const state = {
     }, {
         name: '冒险游戏',
         hadSubMenu: true,
+        fixedSession: [{
+            "key": "add",
+            "session_name": '创建新游戏',
+            "type": 2
+        }],
         sessions: [],
         type: 2,
         key: 'gameChat',
@@ -99,13 +107,14 @@ const state = {
     }],
     currentType: getCurrentType(),
     currentSession: getCurrentSession() || null, // 当前选中的会话
+    createMenuType: null // 创建会话的菜单类型(因为有可能是跨会话类型去创建)
 };
 
 const mutations = {
     // 设置菜单
     SET_MENUS(state, { list, type }) {
         state.menus.forEach(element => {
-            element.type === type && (element.sessions = [...element.sessions, ...list])
+            element.type === type && (element.sessions = [...element.fixedSession, ...list])
         });
         // console.log('更新完的menu:::', state.menus)
     },
@@ -133,6 +142,11 @@ const mutations = {
             page.$set(session, 'file', fileChat)
         }
         console.log('更新完消息:::', fileChat)
+    },
+
+    // 修改创建会话的类型
+    SET_CREATE_MENU_TYPE(state, createMenuType) {
+        state.createMenuType = createMenuType
     }
 };
 
@@ -141,7 +155,9 @@ const actions = {
     selectSession({ commit, dispatch }, { page, menu, session }) {
         let { type } = menu
 
-        if (session.key === 'add') {
+        if (session.key && session.key === 'add') {
+            commit('SET_CREATE_MENU_TYPE', menu) // 临时存储即将创建的会话归属菜单
+
             let { normalChat } = chatTypeMap
             // 普通会话新增直接打开弹窗
             if (type === normalChat.chatType) {
@@ -152,7 +168,7 @@ const actions = {
             commit('SET_CURRENT_SESSION', { type: type, currentSession: null });
         } else {
             // 处理页面消息等请求
-            dispatch('handleMessageRequest', { page, type, sessionId: session.session_id });
+            dispatch('handleMessageRequest', { page, type, sessionId: session.session_id, session });
 
             // 设置当前选中的会话
             commit('SET_CURRENT_SESSION', { type: type, currentSession: session.session_id });
@@ -162,14 +178,14 @@ const actions = {
     },
 
     // 处理消息请求 
-    handleMessageRequest({ dispatch }, { page, type, sessionId }) {
+    handleMessageRequest({ dispatch }, { page, type, sessionId, session = {} }) {
         let { pdfChat, multiPdfChat } = chatTypeMap
         if (type === pdfChat.chatType || type === multiPdfChat.chatType) {
             // 文件聊天的话需要请求聊天文件
             dispatch('getFileChatBySessionId', { page, type, sessionId });
         }
 
-        dispatch('fetchMessages', { page, type, sessionId });
+        dispatch('fetchMessages', { page, type, sessionId, session });
 
     },
 
@@ -189,7 +205,7 @@ const actions = {
     },
 
     // 请求当前类型聊天菜单菜单
-    async fetchSessions({ commit, state, rootGetters, dispatch }, { page, }) {
+    async fetchSessions({ commit, state, rootGetters, dispatch }, { page }) {
         // 异步获取每个菜单项消息，并将消息存储在基本信息中
         await Promise.all(
             state.menus.map(async (item) => {
@@ -198,7 +214,6 @@ const actions = {
                     console.log('请求菜单列表', data.list)
                     commit('SET_MENUS', { list: data.list || [], type: item.type });
                 }
-
             })
         );
         // todo 没有currentSession的情况
@@ -208,11 +223,44 @@ const actions = {
     },
 
     // 获取session的对话信息
-    async fetchMessages({ commit }, { page, type, sessionId }) {
+    async fetchMessages({ commit, rootGetters }, { page, type, sessionId, session }) {
         try {
             return new Promise((resolve, reject) => {
                 getSessionChatRecord({ sessionId: sessionId }).then(response => {
                     const { record } = response.data
+                    switch(type) {
+                        case chatTypeMap.normalChat.chatType: 
+                            record.unshift({
+                                role: "assistant",
+                                content: `你好「${rootGetters.name}」我是FunAI机器人，我可以帮你解答任何我能够回答的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
+                            })
+                            break
+                        case chatTypeMap.pdfChat.chatType: 
+                            record.unshift({
+                                role: "assistant",
+                                content: `你好「${rootGetters.name}」我是FunAI单文件聊天机器人，您上传的文档已经解析完毕，我可以帮你解答任何文档中的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
+                            })
+                            break
+                        case chatTypeMap.gameChat.chatType: 
+                            record = record.slice(1)
+                            record.unshift({
+                                role: "assistant",
+                                content: `你好「${rootGetters.name}」我是GameGPT，请点击下面的开始游戏😀让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
+                            })
+                            break
+                        case chatTypeMap.expertChat.chatType: 
+                            record.unshift({
+                                role: "assistant",
+                                content: `你好「${rootGetters.name}」我是FunAI助手，我可以帮你解答相关的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
+                            })
+                            break
+                        case chatTypeMap.multiPdfChat.chatType: 
+                            record.unshift({
+                                role: "assistant",
+                                content: `你好「${rootGetters.name}」我是FunAI多文件聊天机器人，您上传的多份文档已经解析完毕，我可以帮你解答任何文档中的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
+                            })
+                            break
+                    }
                     commit('SET_SESSION_MESSAGES', { page, type, sessionId, list: record || [] });
                     resolve()
                 }).catch(error => {
@@ -241,13 +289,50 @@ const actions = {
         }
     },
 
+    async createSession({ state, commit, dispatch, rootGetters }, { name, page }) {
+        let { type = null } = state.createMenuType
+
+        let params = {
+            user_id: rootGetters.userId,
+            session_name: name,
+            type
+        }
+        try {
+            return new Promise((resolve, reject) => {
+                addSession(params).then(async (response) => {
+                    page.$message.success("创建会话 [" + params.session_name + "] 成功!")
+
+                    const { data } = await getSessionList({ user_id: rootGetters.userId, type });
+                    console.log('新增对话重新请求菜单列表：：：', data.list)
+                    commit('SET_MENUS', { list: data.list || [], type });
+
+                    // 关闭弹窗
+                    commit('app/SET_ADD_SESSION_DIALOG', false, { root: true });
+
+                    // 选中新增那个会话
+                    dispatch('selectSession', { page, menu: state.createMenuType, session: response.data.session });
+
+                    // 创建成功清空临时对象
+                    commit('SET_CREATE_MENU_TYPE', null)
+
+                    resolve()
+                }).catch(error => {
+                    page.$message.error(response.message)
+                    reject(error)
+                })
+            })
+        } catch (error) {
+            console.error('创建会话异常，请刷新重试', error);
+        }
+    },
+
     // 发送聊天信息
     async addMessge({ commit }, { messageText, callBack }) {
         try {
             const sseInstance = new SSEManager({
                 onMessage: (data) => {
                     // 处理收到的 SSE 消息
-                    
+
                     callBack && callBack()
                 },
             });

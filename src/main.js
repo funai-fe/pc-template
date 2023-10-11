@@ -57,8 +57,8 @@ router.afterEach(() => {
 })
 
 if (process.env.NODE_ENV === 'development') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
+  // const { mockXHR } = require('../mock')
+  // mockXHR()
 }
 
 Vue.config.productionTip = false

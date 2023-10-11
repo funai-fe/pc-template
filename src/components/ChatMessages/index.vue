@@ -8,7 +8,7 @@
       v-for="message in messages"
       :key="message.session_chat_id"
     >
-      <div v-if="message.role === 'user'" class="message user-message">
+      <div v-if="message.role === 'user' || (isCustomerChat && message.from_id == userId)" class="message user-message">
         <div class="head-icon">
           <img src="@/assets/chat/image_head_ sculpture@2x.png" alt="" />
         </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="chat-content">
           <div class="user-info">
-            <span class="name">{{ name }}</span>
+            <span class="name">{{ message.name || 'FunAI机器人' }}</span>
             <span class="time">{{ message.create_time }}</span>
           </div>
           <div class="chat-text">
@@ -51,8 +51,8 @@
 </template>
   
 <script>
-import ClipboardJS from "clipboard";
 import { mapGetters, mapActions } from "vuex";
+import { chatTypeMap } from "@/config/index";
 export default {
   props: {
     messages: {
@@ -67,6 +67,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    type: {
+      type: Number,
+      default: -1,
+    }
   },
   data() {
     return {
@@ -74,7 +78,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["name"]),
+    ...mapGetters(["name", "userId"]),
+    // 是否聊天客服，它不是通过role === 'user'来判断当前用户，而是通过from_id == userId来确定
+    isCustomerChat() {
+      return this.type == chatTypeMap["customerChat"].chatType
+    }
   },
   methods: {
     // 复制内容
@@ -221,7 +229,8 @@ $headMargin: 16px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
-            max-width: 60%;
+            // max-width: 60%;
+            max-width: 100%;
           }
         }
         .chat-text {

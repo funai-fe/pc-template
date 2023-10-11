@@ -46,3 +46,48 @@
 .el-range-separator {
   box-sizing: content-box;
 }
+
+// 弹窗
+.el-dialog {
+  border-radius: 15px;
+
+  .el-dialog__header {
+
+    .el-dialog__title {
+      color: #000B58;
+    }
+
+    .el-dialog__headerbtn .el-dialog__close {
+      background-image: url('../assets/common/icon_close_sel@2x.png') !important;
+      background-size: cover;
+      width: 20px;
+      height: 20px;
+
+      &:before {
+        display: none;
+      }
+
+    }
+  }
+
+  .el-dialog__body {
+    .el-input.is-active .el-input__inner,
+    .el-input__inner:focus {
+      border-color: #000B58;
+    }
+  }
+
+  .el-dialog__footer {
+    .el-button.el-button--primary {
+      background-color: #000B58;
+      border-color: #000B58;
+    }
+
+    .el-button:focus,
+    .el-button:hover {
+      color: #000B58;
+      border-color: #e5e6e8;
+      background-color: #e5e6e8;
+    }
+  }
+}

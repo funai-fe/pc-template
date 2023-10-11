@@ -5,8 +5,8 @@
     :visible.sync="showAddSessionDialog"
     @close="close"
   >
-    <el-form :model="form">
-      <el-form-item label="活动名称">
+    <el-form :model="form" ref="form" :rules="rules">
+      <el-form-item label="活动名称" prop="name">
         <el-input v-model="form.name" autocomplete="off"></el-input>
       </el-form-item>
     </el-form>
@@ -25,6 +25,9 @@ export default {
       form: {
         name: "",
       },
+      rules: {
+        name: { required: true, message: "请输入会话名称", trigger: "blur" },
+      },
     };
   },
   computed: {
@@ -32,13 +35,25 @@ export default {
   },
   methods: {
     ...mapMutations("app", ["SET_ADD_SESSION_DIALOG"]),
-    ...mapActions("menu", ["addMessge"]),
+    ...mapMutations("menu", ["SET_CREATE_MENU_TYPE"]),
+    ...mapActions("menu", ["createSession"]),
     close() {
       this.SET_ADD_SESSION_DIALOG(false);
+      this.SET_CREATE_MENU_TYPE(null)
+      this.form.name = "";
     },
     confirmAddSession() {
-      this.addMessge();
-      this.SET_ADD_SESSION_DIALOG(false);
+      this.$refs["form"].validate((valid) => {
+        if (valid) {
+          this.createSession({
+            name: this.form.name,
+            page: this
+          });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
     },
   },
 };
