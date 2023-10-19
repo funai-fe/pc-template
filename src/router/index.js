@@ -96,6 +96,7 @@ export const constantRoutes = [
     ]
   },
 
+  // 新建游戏
   {
     path: '/chatWithGame',
     component: Layout,
@@ -109,6 +110,7 @@ export const constantRoutes = [
     ]
   },
 
+  //游戏聊天
   {
     path: '/gameChat',
     component: Layout,
@@ -117,7 +119,7 @@ export const constantRoutes = [
         path: '/gameChat/:sessionId',
         name: 'GameChat',
         meta: { title: 'GameChat', icon: '', showHeader: false },
-        // component: () => import('@/views/chatWithFile/singleFile')
+        component: () => import('@/views/gameChat/index')
       }
     ]
   },

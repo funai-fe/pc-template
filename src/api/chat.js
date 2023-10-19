@@ -8,10 +8,29 @@ export function addSession(data = {}) {
         data
     })
 }
-// 发送内容(多轮聊天)
+
+// 多轮聊天
+export function sessionChat(data = {}) {
+    return request({
+        url: '/chat/session',
+        method: 'post',
+        data
+    })
+}
+
+// 发送内容(多轮聊天)(流式))
 export function streamSessionChat(data = {}) {
     return request({
         url: '/chat/streamSessionChat',
+        method: 'post',
+        data
+    })
+}
+
+// 与文件聊天
+export function chatWithFile(data = {}) {
+    return request({
+        url: '/file/chatWithFile',
         method: 'post',
         data
     })

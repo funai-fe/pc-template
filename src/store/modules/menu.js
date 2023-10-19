@@ -20,7 +20,7 @@
 // ]
 // import Vue from 'vue';
 import SSEManager from '@/utils/sse'
-import { getSessionList, getSessionChatRecord, getFileChatBySessionId, addSession, streamSessionChat } from "@/api/chat";
+import { getSessionList, getSessionChatRecord, getFileChatBySessionId, addSession, chatWithFile, sessionChat, streamSessionChat } from "@/api/chat";
 // import { getMenuAddItem } from '@/config/index'
 import { getCurrentType, getCurrentSession, setCurrentSession } from '@/utils/auth'
 import { chatTypeMap } from '@/config/index'
@@ -125,7 +125,7 @@ const mutations = {
         setCurrentSession({ type, currentSession })
     },
 
-    // 设置会话的聊天内容
+    // 直接设置会话的聊天内容
     SET_SESSION_MESSAGES(state, { page, type, sessionId, list }) {
         let sessions = state.menus.find((session) => session.type === type) || [];
         let session = sessions.sessions && sessions.sessions.find((item) => item.session_id === sessionId) || []
@@ -151,6 +151,13 @@ const mutations = {
 };
 
 const actions = {
+    // 获取聊天内容
+    getSessionMessages({ state }, { type, sessionId }) {
+        let sessions = state.menus.find((session) => session.type === type) || [];
+        let session = sessions.sessions && sessions.sessions.find((item) => item.session_id === sessionId) || []
+        return session.messages || []
+    },
+
     // 选中菜单项
     selectSession({ commit, dispatch }, { page, menu, session }) {
         let { type } = menu
@@ -227,34 +234,34 @@ const actions = {
         try {
             return new Promise((resolve, reject) => {
                 getSessionChatRecord({ sessionId: sessionId }).then(response => {
-                    const { record } = response.data
-                    switch(type) {
-                        case chatTypeMap.normalChat.chatType: 
+                    let { record } = response.data
+                    switch (type) {
+                        case chatTypeMap.normalChat.chatType:
                             record.unshift({
                                 role: "assistant",
                                 content: `你好「${rootGetters.name}」我是FunAI机器人，我可以帮你解答任何我能够回答的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
                             })
                             break
-                        case chatTypeMap.pdfChat.chatType: 
+                        case chatTypeMap.pdfChat.chatType:
                             record.unshift({
                                 role: "assistant",
                                 content: `你好「${rootGetters.name}」我是FunAI单文件聊天机器人，您上传的文档已经解析完毕，我可以帮你解答任何文档中的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
                             })
                             break
-                        case chatTypeMap.gameChat.chatType: 
+                        case chatTypeMap.gameChat.chatType:
                             record = record.slice(1)
                             record.unshift({
                                 role: "assistant",
                                 content: `你好「${rootGetters.name}」我是GameGPT，请点击下面的开始游戏😀让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
                             })
                             break
-                        case chatTypeMap.expertChat.chatType: 
+                        case chatTypeMap.expertChat.chatType:
                             record.unshift({
                                 role: "assistant",
                                 content: `你好「${rootGetters.name}」我是FunAI助手，我可以帮你解答相关的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
                             })
                             break
-                        case chatTypeMap.multiPdfChat.chatType: 
+                        case chatTypeMap.multiPdfChat.chatType:
                             record.unshift({
                                 role: "assistant",
                                 content: `你好「${rootGetters.name}」我是FunAI多文件聊天机器人，您上传的多份文档已经解析完毕，我可以帮你解答任何文档中的问题😀, 让我们在当前会话${session.session_name ? `【${session.session_name}】` : ''}畅聊吧！`,
@@ -327,8 +334,68 @@ const actions = {
     },
 
     // 发送聊天信息
-    async addMessge({ commit }, { messageText, callBack }) {
+    async addMessge({ state, commit, dispatch, rootGetters }, { page, stream, messageText, callBack }) {
+        let chatMessages = await dispatch('getSessionMessages', { type: state.currentType, sessionId: state.currentSession })
         try {
+            // 推送问题到聊天框
+            let chatMsg = {
+                role: "user",
+                name: rootGetters.name,
+                create_time: new Date().toLocaleTimeString(),
+                content: messageText,
+            }
+            chatMessages.push(chatMsg)
+            commit('SET_SESSION_MESSAGES', { page, type: state.currentType, sessionId: state.currentSession, list: chatMessages })
+
+            // 准备请求数据，推送头像和名字，不推送内容
+            let req_data = {
+                message: chatMsg.content,
+                user_id: rootGetters.userId,
+                session_id: state.currentSession,
+                session_type: state.currentType
+            }
+            let chatGPTMsg = {
+                role: "assistant",
+                name: "ChatGPT",
+                create_time: "",
+                content: "",
+            }
+            chatMessages.push(chatGPTMsg)
+            commit('SET_SESSION_MESSAGES', { page, type: state.currentType, sessionId: state.currentSession, list: chatMessages })
+
+            let curIndex = chatMessages.length - 1; // 最后一条数据
+            if (stream == "普通输出") {
+                let type = state.currentType
+                let { pdfChat, multiPdfChat } = chatTypeMap
+                if (type === pdfChat.chatType || type === multiPdfChat.chatType) {
+                    return new Promise((resolve, reject) => {
+                        chatWithFile(req_data).then(response => {
+                            const { message } = response.data
+                            chatMessages[curIndex].content = message;
+                            chatMessages[curIndex].create_time = new Date().toLocaleTimeString();
+                            commit('SET_SESSION_MESSAGES', { page, type: state.currentType, sessionId: state.currentSession, list: chatMessages })
+                            resolve()
+                        }).catch(error => {
+                            reject(error)
+                        })
+                    })
+                } else {
+                    return new Promise((resolve, reject) => {
+                        sessionChat(req_data).then(response => {
+                            const { message } = response.data
+                            chatMessages[curIndex].content = message;
+                            chatMessages[curIndex].create_time = new Date().toLocaleTimeString();
+                            commit('SET_SESSION_MESSAGES', { page, type: state.currentType, sessionId: state.currentSession, list: chatMessages })
+                            resolve()
+                        }).catch(error => {
+                            reject(error)
+                        })
+                    })
+                }
+            } else {
+                return
+            }
+
             const sseInstance = new SSEManager({
                 onMessage: (data) => {
                     // 处理收到的 SSE 消息

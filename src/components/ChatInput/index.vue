@@ -17,7 +17,14 @@
         content="发送消息"
         placement="top"
       >
-        <button class="send-button" :class="{ 'disabled': !currentMessage }" :disabled="!currentMessage" @click="sendMessage">发送</button>
+        <button
+          class="send-button"
+          :class="{ disabled: !currentMessage }"
+          :disabled="!currentMessage"
+          @click="sendMessage"
+        >
+          发送
+        </button>
       </el-tooltip>
       <el-tooltip
         v-else
@@ -34,6 +41,33 @@
           />
           停止发送
         </button>
+      </el-tooltip>
+      <!-- 百宝箱按钮 -->
+      <el-tooltip effect="dark" content="百宝功能箱✨" placement="top">
+        <el-popover placement="top-end" width="100" trigger="click">
+          <div class="treasure-box">
+            <el-tooltip :content="'输出模式: ' + stream" placement="top">
+              <el-switch
+                v-model="stream"
+                active-color="#13ce66"
+                inactive-color="#438EDB"
+                active-value="流式输出"
+                inactive-value="普通输出"
+                class="el-switch--vertical"
+              >
+              </el-switch>
+            </el-tooltip>
+            <el-tooltip content="下载" placement="top">
+              <i class="el-icon-download"></i>
+              <!-- <span class="iconfont icon-xiazai" @click="downloadSessionMessage"  style="cursor: pointer;"></span> -->
+            </el-tooltip>
+            <el-tooltip content="长按时说话" placement="top">
+              <i class="el-icon-microphone"></i>
+            </el-tooltip>
+          </div>
+          <i slot="reference" class="el-icon-setting"></i>
+          <!-- <span  class="iconfont icon-gongneng" style="cursor: pointer;"></span> -->
+        </el-popover>
       </el-tooltip>
     </div>
   </div>
@@ -55,6 +89,7 @@ export default {
     return {
       isSending: false,
       currentMessage: "",
+      stream: "普通输出", // 是否支持流式输出
     };
   },
   methods: {
@@ -66,19 +101,25 @@ export default {
       textarea.style.height = height + "px";
     },
     handleEnterKey() {
-      console.log('111')
+      console.log("111");
     },
     sendMessage() {
       const messageText = this.currentMessage.trim();
       if (messageText) {
-        this.isSending = true
+        this.isSending = true;
         this.$emit("addMessage", {
+          stream: this.stream,
           messageText,
           callBack: () => {
-            this.isSending = false
-          }
+            this.isSending = false;
+          },
         });
         this.currentMessage = "";
+      } else {
+        this.$message({
+          message: "消息不能为空哦~",
+          type: "warning",
+        });
       }
     },
   },
@@ -108,7 +149,6 @@ export default {
     display: flex;
     align-items: center;
     padding: 14px;
-
     .voice {
       width: 16px;
       height: 16px;
@@ -165,6 +205,12 @@ export default {
         cursor: inherit;
       }
     }
+    .el-icon-setting {
+      cursor: pointer;
+      font-size: 28px;
+      margin-left: 10px;
+      color: #6c727f;
+    }
   }
 }
 
@@ -186,4 +232,15 @@ export default {
   @include mini;
 }
 </style>
-  
+<style>
+.treasure-box {
+  justify-content: space-around;
+  display: flex;
+  align-items: center;
+}
+.el-icon-download,
+.el-icon-microphone {
+  font-size: 24px;
+  cursor: pointer;
+}
+</style>

@@ -77,6 +77,8 @@ export default {
       }
       
       this.addMessge({
+        page: this,
+        stream: option.stream,
         messageText: option.messageText,
         callBack: option.callBack
       })

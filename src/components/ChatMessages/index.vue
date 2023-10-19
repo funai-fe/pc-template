@@ -33,7 +33,7 @@
           </div>
           <div class="chat-text">
             <div class="text">{{ message.content }}</div>
-            <div class="tools">
+            <div class="tools" v-if="message.content">
               <div class="tools-item" @click="copyMessage(message.content)">
                 <img src="@/assets/chat/icon_copy_nor@2x.png" alt="" />
                 <span>复制内容</span>
